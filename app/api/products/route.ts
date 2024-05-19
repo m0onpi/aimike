@@ -6,7 +6,7 @@ import { withAuth } from '../middleware/authMiddleware';
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
-  const token = await withAuth(req, NextResponse);
+  const token = await withAuth(req);
   if (token instanceof NextResponse) {
     return token;
   }
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const token = await withAuth(req, NextResponse);
+  const token = await withAuth(req);
   if (token instanceof NextResponse) {
     return token;
   }
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const token = await withAuth(req, NextResponse);
+  const token = await withAuth(req);
   if (token instanceof NextResponse) {
     return token;
   }
@@ -45,7 +45,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const token = await withAuth(req, NextResponse);
+  const token = await withAuth(req);
   if (token instanceof NextResponse) {
     return token;
   }
