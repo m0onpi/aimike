@@ -2,12 +2,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { Button, Form, Table } from 'react-bootstrap';
 
 export default function ProductsPage() {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [products, setProducts] = useState([]);
+  const [newProduct, setNewProduct] = useState({ name: '', description: '', price: '', stock: '' });
   const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
@@ -20,25 +19,26 @@ export default function ProductsPage() {
     setProducts(data);
   };
 
-  const createProduct = async (data) => {
+  const createProduct = async (e) => {
+    e.preventDefault();
     const response = await fetch('/api/products', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(newProduct),
     });
-    const newProduct = await response.json();
-    setProducts([...products, newProduct]);
-    reset();
+    const data = await response.json();
+    setProducts([...products, data]);
+    setNewProduct({ name: '', description: '', price: '', stock: '' });
   };
 
-  const updateProduct = async (data) => {
+  const updateProduct = async (id) => {
     const response = await fetch(`/api/products`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(editingProduct),
     });
-    const updatedProduct = await response.json();
-    setProducts(products.map((prod) => (prod.id === data.id ? updatedProduct : prod)));
+    const data = await response.json();
+    setProducts(products.map((prod) => (prod.id === id ? data : prod)));
     setEditingProduct(null);
   };
 
@@ -54,38 +54,42 @@ export default function ProductsPage() {
   return (
     <div className="container mt-5">
       <h1>Product Management</h1>
-      <Form onSubmit={handleSubmit(createProduct)} className="mb-4">
+      <Form onSubmit={createProduct} className="mb-4">
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            {...register('name', { required: 'Name is required' })}
+            value={newProduct.name}
+            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+            required
           />
-          {errors.name && <span className="text-danger">{errors.name.message}</span>}
         </Form.Group>
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
           <Form.Control
             type="text"
-            {...register('description', { required: 'Description is required' })}
+            value={newProduct.description}
+            onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+            required
           />
-          {errors.description && <span className="text-danger">{errors.description.message}</span>}
         </Form.Group>
         <Form.Group controlId="price">
           <Form.Label>Price</Form.Label>
           <Form.Control
             type="number"
-            {...register('price', { required: 'Price is required' })}
+            value={newProduct.price}
+            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+            required
           />
-          {errors.price && <span className="text-danger">{errors.price.message}</span>}
         </Form.Group>
         <Form.Group controlId="stock">
           <Form.Label>Stock</Form.Label>
           <Form.Control
             type="number"
-            {...register('stock', { required: 'Stock is required' })}
+            value={newProduct.stock}
+            onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+            required
           />
-          {errors.stock && <span className="text-danger">{errors.stock.message}</span>}
         </Form.Group>
         <Button variant="primary" type="submit" className="mt-3">Add Product</Button>
       </Form>
@@ -117,43 +121,42 @@ export default function ProductsPage() {
       </Table>
 
       {editingProduct && (
-        <Form onSubmit={handleSubmit(updateProduct)} className="mt-4">
-          <input type="hidden" {...register('id')} defaultValue={editingProduct.id} />
+        <Form onSubmit={() => updateProduct(editingProduct.id)} className="mt-4">
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
-              {...register('name', { required: 'Name is required' })}
-              defaultValue={editingProduct.name}
+              value={editingProduct.name}
+              onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+              required
             />
-            {errors.name && <span className="text-danger">{errors.name.message}</span>}
           </Form.Group>
           <Form.Group controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
               type="text"
-              {...register('description', { required: 'Description is required' })}
-              defaultValue={editingProduct.description}
+              value={editingProduct.description}
+              onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+              required
             />
-            {errors.description && <span className="text-danger">{errors.description.message}</span>}
           </Form.Group>
           <Form.Group controlId="price">
             <Form.Label>Price</Form.Label>
             <Form.Control
               type="number"
-              {...register('price', { required: 'Price is required' })}
-              defaultValue={editingProduct.price}
+              value={editingProduct.price}
+              onChange={(e) => setEditingProduct({ ...editingProduct, price: e.target.value })}
+              required
             />
-            {errors.price && <span className="text-danger">{errors.price.message}</span>}
           </Form.Group>
           <Form.Group controlId="stock">
             <Form.Label>Stock</Form.Label>
             <Form.Control
               type="number"
-              {...register('stock', { required: 'Stock is required' })}
-              defaultValue={editingProduct.stock}
+              value={editingProduct.stock}
+              onChange={(e) => setEditingProduct({ ...editingProduct, stock: e.target.value })}
+              required
             />
-            {errors.stock && <span className="text-danger">{errors.stock.message}</span>}
           </Form.Group>
           <Button variant="primary" type="submit" className="mt-3">Update Product</Button>
         </Form>
