@@ -1,12 +1,18 @@
-// app/products/[id]/page.tsx
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import axios from 'axios';
 
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  images: string[];
+}
+
 const ProductDetailPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const [product, setProduct] = useState(null);
+  const { id } = useParams();
+  const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -23,7 +29,7 @@ const ProductDetailPage = () => {
   return (
     <div className="container mx-auto py-10">
       <div className="flex">
-        <img src={product.images[0]} alt={product.name} className="w-1/2 h-96 object-cover"/>
+        <img src={product.images[0]} alt={product.name} className="w-1/2 h-96 object-cover" />
         <div className="ml-10">
           <h1 className="text-3xl font-bold">{product.name}</h1>
           <p className="text-xl text-gray-700 mt-4">${product.price}</p>
