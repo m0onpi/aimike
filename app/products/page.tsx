@@ -1,4 +1,5 @@
 // app/products/page.tsx
+"use client"
 import { useState } from 'react';
 
 interface Product {
