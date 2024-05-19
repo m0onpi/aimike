@@ -1,8 +1,0 @@
-{
-    "build": {
-      "env": {
-        "DATABASE_URL": "postgresql://moonpi:moonpi@91103@localhost:5432/main_db"
-      }
-    }
-  }
-  
