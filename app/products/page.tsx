@@ -1,72 +1,35 @@
 // app/products/page.tsx
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-interface Product {
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-}
+const ProductsPage = () => {
+  const [products, setProducts] = useState([]);
 
-export default function Page() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
-
-  const createProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const data: Product = { name, description, price, stock };
-    const response = await fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+  useEffect(() => {
+    axios.get('/api/products').then((response) => {
+      setProducts(response.data);
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to create product');
-    }
-
-    return response.json();
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    try {
-      await createProduct(event);
-      // Reset form or display success message
-    } catch (error) {
-      console.error(error);
-      // Display error message
-    }
-  };
+  }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-      <input
-        type="number"
-        value={price}
-        onChange={(e) => setPrice(Number(e.target.value))}
-        placeholder="Price"
-      />
-      <input
-        type="number"
-        value={stock}
-        onChange={(e) => setStock(Number(e.target.value))}
-        placeholder="Stock"
-      />
-      <button type="submit">Create Product</button>
-    </form>
+    <div className="container mx-auto py-10">
+      <h1 className="text-2xl font-bold mb-5">Products</h1>
+      <div className="grid grid-cols-3 gap-4">
+        {products.map((product) => (
+          <div key={product.id} className="border p-4 rounded">
+            <img src={product.images[0]} alt={product.name} className="w-full h-48 object-cover"/>
+            <h2 className="text-xl font-bold mt-2">{product.name}</h2>
+            <p className="text-gray-700">${product.price}</p>
+            <p className="text-gray-600">{product.description}</p>
+            <button className="bg-blue-500 text-white mt-4 py-2 px-4 rounded">
+              Add to Cart
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
+};
+
+export default ProductsPage;

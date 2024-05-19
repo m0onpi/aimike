@@ -1,57 +1,32 @@
 // app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { withAuth } from '../middleware/authMiddleware';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
-  const token = await withAuth(req);
-  if (token instanceof NextResponse) {
-    return token;
-  }
-
+export async function GET() {
   const products = await prisma.product.findMany();
   return NextResponse.json(products);
 }
 
 export async function POST(req: NextRequest) {
-  const token = await withAuth(req);
-  if (token instanceof NextResponse) {
-    return token;
-  }
-
-  const body = await req.json();
-  const { name, description, price, stock } = body;
-  const product = await prisma.product.create({
-    data: { name, description, price, stock },
-  });
-  return NextResponse.json(product, { status: 201 });
+  const data = await req.json();
+  const product = await prisma.product.create({ data });
+  return NextResponse.json(product);
 }
 
 export async function PUT(req: NextRequest) {
-  const token = await withAuth(req);
-  if (token instanceof NextResponse) {
-    return token;
-  }
-
-  const body = await req.json();
-  const { id, name, description, price, stock } = body;
+  const data = await req.json();
+  const { id, ...updateData } = data;
   const product = await prisma.product.update({
     where: { id },
-    data: { name, description, price, stock },
+    data: updateData,
   });
   return NextResponse.json(product);
 }
 
 export async function DELETE(req: NextRequest) {
-  const token = await withAuth(req);
-  if (token instanceof NextResponse) {
-    return token;
-  }
-
-  const body = await req.json();
-  const { id } = body;
+  const { id } = await req.json();
   await prisma.product.delete({ where: { id } });
-  return NextResponse.json({}, { status: 204 });
+  return NextResponse.json({ message: 'Product deleted' });
 }
