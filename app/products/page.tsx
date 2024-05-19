@@ -1,15 +1,28 @@
 // app/products/page.tsx
 "use client"
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  images: string[];
+  stock: number;
+}
+
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get('/api/products').then((response) => {
-      setProducts(response.data);
-    });
+    axios.get('/api/products')
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
   }, []);
 
   return (
