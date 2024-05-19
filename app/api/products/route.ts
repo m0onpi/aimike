@@ -1,57 +1,57 @@
 // app/api/products/route.ts
-
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { withAuth } from '../middleware/authMiddleware';
 
 const prisma = new PrismaClient();
 
-async function isAuthenticated(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req });
-  if (!session) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return null;
+export async function GET(req: NextRequest) {
+  const token = await withAuth(req, NextResponse);
+  if (token instanceof NextResponse) {
+    return token;
   }
-  return session;
-}
-
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const session = await isAuthenticated(req, res);
-  if (!session) return;
 
   const products = await prisma.product.findMany();
-  res.status(200).json(products);
+  return NextResponse.json(products);
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const session = await isAuthenticated(req, res);
-  if (!session) return;
+export async function POST(req: NextRequest) {
+  const token = await withAuth(req, NextResponse);
+  if (token instanceof NextResponse) {
+    return token;
+  }
 
-  const { name, description, price, stock } = req.body;
+  const body = await req.json();
+  const { name, description, price, stock } = body;
   const product = await prisma.product.create({
     data: { name, description, price, stock },
   });
-  res.status(201).json(product);
+  return NextResponse.json(product, { status: 201 });
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
-  const session = await isAuthenticated(req, res);
-  if (!session) return;
+export async function PUT(req: NextRequest) {
+  const token = await withAuth(req, NextResponse);
+  if (token instanceof NextResponse) {
+    return token;
+  }
 
-  const { id, name, description, price, stock } = req.body;
+  const body = await req.json();
+  const { id, name, description, price, stock } = body;
   const product = await prisma.product.update({
     where: { id },
     data: { name, description, price, stock },
   });
-  res.status(200).json(product);
+  return NextResponse.json(product);
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
-  const session = await isAuthenticated(req, res);
-  if (!session) return;
+export async function DELETE(req: NextRequest) {
+  const token = await withAuth(req, NextResponse);
+  if (token instanceof NextResponse) {
+    return token;
+  }
 
-  const { id } = req.body;
+  const body = await req.json();
+  const { id } = body;
   await prisma.product.delete({ where: { id } });
-  res.status(204).end();
+  return NextResponse.json({}, { status: 204 });
 }
