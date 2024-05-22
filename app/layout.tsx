@@ -25,22 +25,22 @@ const Layout = ({ children }: LayoutProps) => {
           <header className="flex justify-between items-center p-4 bg-gray-900">
             <div className="text-2xl font-bold">AI Mike</div>
             <nav className="hidden md:flex space-x-4">
-              <Link href="/" passHref>
+              <Link legacyBehavior href="/" passHref>
                 <a className="hover:underline">Home</a>
               </Link>
-              <Link href="/services/consulting" passHref>
+              <Link legacyBehavior href="/services/consulting" passHref>
                 <a className="hover:underline">Consulting</a>
               </Link>
-              <Link href="/services/machine-learning" passHref>
+              <Link legacyBehavior href="/services/machine-learning" passHref>
                 <a className="hover:underline">Machine Learning</a>
               </Link>
-              <Link href="/services/automation" passHref>
+              <Link legacyBehavior href="/services/automation" passHref>
                 <a className="hover:underline">Automation</a>
               </Link>
-              <Link href="/about" passHref>
+              <Link legacyBehavior href="/about" passHref>
                 <a className="hover:underline">About</a>
               </Link>
-              <Link href="/contact" passHref>
+              <Link legacyBehavior href="/contact" passHref>
                 <a className="hover:underline">Contact</a>
               </Link>
             </nav>
@@ -63,22 +63,22 @@ const Layout = ({ children }: LayoutProps) => {
           </header>
           <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
             <nav className="flex flex-col space-y-2 p-4 bg-gray-800">
-              <Link href="/" passHref>
+              <Link legacyBehavior href="/" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>Home</a>
               </Link>
-              <Link href="/services/consulting" passHref>
+              <Link legacyBehavior href="/services/consulting" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>Consulting</a>
               </Link>
-              <Link href="/services/machine-learning" passHref>
+              <Link legacyBehavior href="/services/machine-learning" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>Machine Learning</a>
               </Link>
-              <Link href="/services/automation" passHref>
+              <Link legacyBehavior href="/services/automation" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>Automation</a>
               </Link>
-              <Link href="/about" passHref>
+              <Link legacyBehavior href="/about" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>About</a>
               </Link>
-              <Link href="/contact" passHref>
+              <Link legacyBehavior href="/contact" passHref>
                 <a className="hover:underline" onClick={toggleMenu}>Contact</a>
               </Link>
             </nav>

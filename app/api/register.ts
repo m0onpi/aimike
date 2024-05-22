@@ -6,14 +6,14 @@ mailchimp.setConfig({
   server: process.env.MAILCHIMP_SERVER_PREFIX || '',
 });
 
+const listId = process.env.MAILCHIMP_LIST_ID || '';
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { name, email } = req.body;
-    const listId = process.env.MAILCHIMP_LIST_ID || '';
-    
-    // Check if any of the required variables are empty
-    if (!mailchimp.apiKey || !mailchimp.server || !listId) {
-      return res.status(500).json({ message: 'Server configuration error' });
+    const { firstName, lastName, email, number, gdpr } = req.body;
+
+    if (!gdpr) {
+      return res.status(400).json({ message: 'GDPR consent is required' });
     }
 
     try {
@@ -21,7 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email_address: email,
         status: 'subscribed',
         merge_fields: {
-          FNAME: name,
+          FNAME: firstName,
+          LNAME: lastName,
+          PHONE: number,
         },
       });
       res.status(200).json({ message: 'Registration successful', response });
