@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <Layout>
       <div className="text-center my-12">
-        <h1 className="text-5xl font-bold mb-4">Chan is silly</h1>
+        <h1 className="text-5xl font-bold mb-4">Welcome to AI Mike</h1>
         <p className="text-lg mb-6">Welcome to AI Mike, your go-to AI agency. We provide innovative AI solutions to meet your needs.</p>
         <button className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600">Home</button>
       </div>
