@@ -1,5 +1,6 @@
+"use client"
 import { ReactNode, useState } from 'react';
-import '../globals.css';
+import './globals.css';
 import Link from 'next/link';
 
 type LayoutProps = {
