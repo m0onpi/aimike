@@ -7,7 +7,6 @@ export default function Subscribe() {
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
-  const gdprRef = useRef(null);
   const [message, setMessage] = useState('');
 
   const subscribe = async (e) => {
@@ -19,7 +18,6 @@ export default function Subscribe() {
         lastName: lastNameRef.current.value,
         email: emailRef.current.value,
         phone: phoneRef.current.value,
-        gdpr: gdprRef.current.checked,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +36,6 @@ export default function Subscribe() {
     lastNameRef.current.value = '';
     emailRef.current.value = '';
     phoneRef.current.value = '';
-    gdprRef.current.checked = false;
     setMessage('Success! 🎉 You are now subscribed to the newsletter.');
   };
 
