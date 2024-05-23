@@ -22,6 +22,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/mailchimp.d.ts"
-],
+, "components/News.js", "app/api/subscribe.js"],
   "exclude": ["node_modules"]
 }

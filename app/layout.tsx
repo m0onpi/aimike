@@ -25,23 +25,23 @@ const Layout = ({ children }: LayoutProps) => {
           <header className="flex justify-between items-center p-4 bg-gray-900">
             <div className="text-2xl font-bold">AI Mike</div>
             <nav className="hidden md:flex space-x-4">
-              <Link legacyBehavior href="/" passHref>
-                <a className="hover:underline">Home</a>
+              <Link className="hover:underline"  href="/" passHref>
+                Home
               </Link>
-              <Link legacyBehavior href="/services/consulting" passHref>
-                <a className="hover:underline">Consulting</a>
+              <Link className="hover:underline" href="/services/consulting" passHref>
+                Consulting
               </Link>
-              <Link legacyBehavior href="/services/machine-learning" passHref>
-                <a className="hover:underline">Machine Learning</a>
+              <Link className="hover:underline" href="/services/machine-learning" passHref>
+                Machine Learning
               </Link>
-              <Link legacyBehavior href="/services/automation" passHref>
-                <a className="hover:underline">Automation</a>
+              <Link className="hover:underline" href="/services/automation" passHref>
+               Automation
               </Link>
-              <Link legacyBehavior href="/about" passHref>
-                <a className="hover:underline">About</a>
+              <Link className="hover:underline" href="/about" passHref>
+                About
               </Link>
-              <Link legacyBehavior href="/contact" passHref>
-                <a className="hover:underline">Contact</a>
+              <Link className="hover:underline" href="/contact" passHref>
+                Contact
               </Link>
             </nav>
             <button className="md:hidden" onClick={toggleMenu}>
@@ -63,23 +63,23 @@ const Layout = ({ children }: LayoutProps) => {
           </header>
           <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
             <nav className="flex flex-col space-y-2 p-4 bg-gray-800">
-              <Link legacyBehavior href="/" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>Home</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/" passHref>
+                Home
               </Link>
-              <Link legacyBehavior href="/services/consulting" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>Consulting</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/services/consulting" passHref>
+                Consulting
               </Link>
-              <Link legacyBehavior href="/services/machine-learning" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>Machine Learning</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/services/machine-learning" passHref>
+                Machine Learning
               </Link>
-              <Link legacyBehavior href="/services/automation" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>Automation</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/services/automation" passHref>
+                Automation
               </Link>
-              <Link legacyBehavior href="/about" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>About</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/about" passHref>
+                About
               </Link>
-              <Link legacyBehavior href="/contact" passHref>
-                <a className="hover:underline" onClick={toggleMenu}>Contact</a>
+              <Link className="hover:underline" onClick={toggleMenu}  href="/contact" passHref>
+               Contact
               </Link>
             </nav>
           </div>
