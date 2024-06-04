@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 const OAuth2 = google.auth.OAuth2;
 
@@ -19,7 +20,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const accessToken = await oauth2Client.getAccessToken();
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         type: 'OAuth2',
         user: 'sales@aimike.dev',
@@ -28,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         refreshToken: refreshToken,
         accessToken: accessToken.token,
       },
-    });
+    }as SMTPTransport.Options);
 
     const mailOptions = {
       from: 'sales@aimike.dev',
