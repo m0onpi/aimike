@@ -9,6 +9,7 @@ export default function Home() {
     <Layout>
       <div className="text-center my-12">
         <h1 className="text-5xl font-bold mb-4">Welcome to AI Mike</h1>
+        <h2 className="text-3xl font-bold mb-4">Clear Solutions for Complex Problems.</h2>
         <p className="text-lg mb-6">Your go-to AI agency for innovative solutions. We provide expert AI consulting, machine learning development, and automation services to help your business thrive.</p>
         <button className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600">Get Started</button>
       </div>
