@@ -1,56 +1,74 @@
+// components/InvoiceForm.js
 "use client"
 import { useState } from 'react';
 
-export default function Home() {
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [paymentLink, setPaymentLink] = useState('');
+const InvoiceForm = () => {
+    const [customerEmail, setCustomerEmail] = useState('');
+    const [item, setItem] = useState({ description: '', amount: '', currency: 'usd', quantity: 1 });
 
-  const sendEmail = async () => {
-    const response = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, subject, message, paymentLink }),
-    });
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        const formattedItem = {
+            ...item,
+            amount: parseFloat(item.amount) * 100, // Convert to cents
+        };
 
-    const data = await response.json();
-    if (data.success) {
-      alert('Email sent successfully!');
-    } else {
-      alert('Failed to send email.');
-    }
-  };
+        const res = await fetch('/api/send-invoice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ customerEmail, item: formattedItem }),
+        });
+        const data = await res.json();
+        if (data){
+            alert(await data.success);
+        }
+    };
 
-  return (
-    <div>
-      <h1>Send Payment Link</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Subject"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      />
-      <textarea
-        placeholder="Message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      ></textarea>
-      <input
-        type="text"
-        placeholder="Payment Link"
-        value={paymentLink}
-        onChange={(e) => setPaymentLink(e.target.value)}
-      />
-      <button onClick={sendEmail}>Send Email</button>
-    </div>
-  );
+    return (
+        <div className="max-w-md mx-auto p-4 bg-grey rounded shadow-md">
+            <h1 className="text-center font-bold text-2xl mb-4">Payment Link</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <input className="w-full px-4 py-2 border rounded text-gray-800" 
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                placeholder="Customer Email"
+                required
+            />
+                <input className="w-full px-4 py-2 border rounded text-gray-800" 
+                    type="text"
+                    value={item.description}
+                    onChange={(e) => setItem({ ...item, description: e.target.value })}
+                    placeholder="Description"
+                    required
+                />
+                <input className="w-full px-4 py-2 border rounded text-gray-800" 
+                    type="number"
+                    value={item.amount}
+                    onChange={(e) => setItem({ ...item, amount: e.target.value })}
+                    placeholder="Amount"
+                    required
+                />
+                <input className="w-full px-4 py-2 border rounded text-gray-800" 
+                    type="text"
+                    value={item.currency}
+                    onChange={(e) => setItem({ ...item, currency: e.target.value })}
+                    placeholder="Currency"
+                    required
+                />
+                <input className="w-full px-4 py-2 border rounded text-gray-800" 
+                    type="number"
+                    value={item.quantity}
+                    onChange={(e) => setItem({ ...item, quantity: parseInt(e.target.value, 10) })}
+                    placeholder="Quantity"
+                    required
+                />
+            <button className="w-full bg-gray-700 text-white py-2 rounded hover:bg-gray-600" type="submit">Create Invoice</button>
+        </form>
+        </div>
+    )
 }
+
+export default InvoiceForm;

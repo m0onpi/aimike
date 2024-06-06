@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const OAuth2 = google.auth.OAuth2;
 
 const clientID = process.env.GOOGLE_CLIENT_ID!;
@@ -14,8 +14,36 @@ const oauth2Client = new OAuth2(clientID, clientSecret, redirectURI);
 oauth2Client.setCredentials({ refresh_token: refreshToken });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    const { customerEmail, item } = req.body;
+    if (!customerEmail || !item) {
+      return res.status(400).json({ error: 'Customer email and item are required' });
+  }
   try {
-    const { email, subject, message, paymentLink } = req.body;
+    // Create a customer if one doesn't exist
+    const customer = await stripe.customers.create({
+        email: customerEmail,
+    });
+
+    const price = await stripe.prices.create({
+      currency: item.currency,
+      unit_amount: item.amount,
+      recurring: {
+        interval: 'month',
+      },
+      product_data: {
+        name: item.description,
+      },
+    })
+
+    const paymentLink = await stripe.paymentLinks.create({
+      line_items: [
+        {
+          price: price.id,
+          quantity: 1,
+        },
+      ],
+    });
 
     const accessToken = await oauth2Client.getAccessToken();
 
@@ -35,16 +63,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const mailOptions = {
       from: 'sales@aimike.dev',
-      to: email,
-      subject: subject,
-      text: `${message}\n\nPayment Link: ${paymentLink}`,
+      to: customer.email,
+      subject: "Invoice",
+      text: `Payment Link: ${paymentLink.url}`,
     };
 
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ error: 'Error sending email' });
-  }
+  } 
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
 }
