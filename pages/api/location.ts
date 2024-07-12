@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const coordinates = await getCoordinates(location);
         res.status(200).json({ success: true, coordinates });
     } catch (error) {
-        console.error('Error fetching coordinates:', error.message);
-        res.status(500).json({ success: false, error: error.message });
+        console.error('Error fetching coordinates:', 'Internal Server Error');
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
     }
 }
