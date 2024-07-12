@@ -5,8 +5,8 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const OAuth2 = google.auth.OAuth2;
 
-const clientID = process.env.GOOGLE_CLIENT_ID!;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET!;
+const clientID = process.env.GMAIL_CLIENT_ID!;
+const clientSecret = process.env.GMAIL_CLIENT_SECRET!;
 const refreshToken = process.env.GMAIL_REFRESH_TOKEN!;
 const redirectURI = 'http://localhost:3000/api/auth/callback';
 
@@ -62,11 +62,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }as SMTPTransport.Options);
 
     const mailOptions = {
-      from: 'sales@aimike.dev',
+      from: 'Ai Mike <sales@aimike.dev>',
       to: customer.email,
-      subject: "Invoice",
-      text: `Payment Link: ${paymentLink.url}`,
+      subject: "Your Invoice from Aimike",
+      text: `Dear ${customer.name},
+    
+    We hope this message finds you well. Please find your invoice attached.
+    
+    Payment Link: ${paymentLink.url}
+    
+    Thank you for your business.
+    
+    Best regards,
+    The Aimike Team`,
+      html: `
+        <html>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h2 style="color: #333;">Hello ${customer.name},</h2>
+            <p>We hope this message finds you well. Please find your invoice below:</p>
+            <p><strong>Payment Link:</strong> <a href="${paymentLink.url}" style="color: #1a73e8;">${paymentLink.url}</a></p>
+            <p>Thank you for your business.</p>
+            <p>Best regards,<br>The Aimike Team</p>
+          </body>
+        </html>
+      `
     };
+    
 
     await transporter.sendMail(mailOptions);
 

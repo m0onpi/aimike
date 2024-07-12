@@ -27,7 +27,9 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+go.js
+llm.js
+main.py
 # vercel
 .vercel
 
