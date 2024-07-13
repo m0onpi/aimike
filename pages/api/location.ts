@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.status(200).json({ success: true, coordinates, localLeads });
     } catch (error) {
-        console.error('Error:', "error.message");
+        console.error('Errors:', "error.message");
         res.status(500).json({ success: false, error: "error.message" });
     }
 }
