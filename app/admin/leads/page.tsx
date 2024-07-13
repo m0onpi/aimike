@@ -1,3 +1,4 @@
+"use client"
 import LocationForm from '../../../components/LocationForm';
 
 const LocationPage = () => {
