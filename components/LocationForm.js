@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 const LocationForm = () => {
     const [location, setLocation] = useState('');
+    const [category, setCategory] = useState('');
     const [coordinates, setCoordinates] = useState(null);
     const [localLeads, setLocalLeads] = useState([]);
     const [error, setError] = useState('');
@@ -17,7 +18,7 @@ const LocationForm = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ location }),
+                body: JSON.stringify({ location, category }),
             });
 
             if (!res.ok) {
@@ -37,6 +38,27 @@ const LocationForm = () => {
         }
     };
 
+    const exportToCSV = () => {
+        const headers = ["Name", "Address", "Rating", "Link"];
+        const rows = localLeads.map(lead => [
+            lead.name,
+            lead.full_address,
+            lead.rating,
+            lead.place_link
+        ]);
+
+        let csvContent = "data:text/csv;charset=utf-8," 
+            + headers.join(",") + "\n" 
+            + rows.map(row => row.join(",")).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "local_leads.csv");
+        document.body.appendChild(link);
+        link.click();
+    };
+
     return (
         <div className="max-w-md mx-auto p-4 bg-grey rounded shadow-md">
             <h1 className="text-center font-bold text-2xl mb-4">Get GPS Coordinates and Local Leads</h1>
@@ -47,6 +69,14 @@ const LocationForm = () => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Enter Location"
+                    required
+                />
+                <input
+                    className="w-full px-4 py-2 border rounded text-gray-800"
+                    type="text"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    placeholder="Enter Category"
                     required
                 />
                 <button
@@ -87,6 +117,12 @@ const LocationForm = () => {
                             ))}
                         </tbody>
                     </table>
+                    <button
+                        onClick={exportToCSV}
+                        className="w-full bg-blue-700 text-white py-2 mt-4 rounded hover:bg-blue-600"
+                    >
+                        Export to CSV
+                    </button>
                 </div>
             )}
             {error && (

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const getCoordinates = async (location: string) => {
+const getCoordinates = async (location: string,category:string) => {
     const apiKey = process.env.GEOCODING_API_KEY;
 
     if (!apiKey) {
@@ -22,14 +22,14 @@ const getCoordinates = async (location: string) => {
     if (data.length > 0) {
         const lat = data[0].lat;
         const lon = data[0].lon;
-        return { lat, lon };
+        return { lat, lon,category };
     } else {
         throw new Error('Location not found');
     }
 };
 
-const getLocalLeads = async (lat: number, lon: number) => {
-    const url = `https://local-business-data.p.rapidapi.com/search-in-area?query=pizza&lat=${lat}&lng=${lon}&zoom=13&limit=20&language=en&region=us&extract_emails_and_contacts=true`;
+const getLocalLeads = async (lat: number, lon: number,category:string) => {
+    const url = `https://local-business-data.p.rapidapi.com/search-in-area?query=${category}&lat=${lat}&lng=${lon}&zoom=13&limit=20&language=en&region=us&extract_emails_and_contacts=true`;
     const options = {
         method: 'GET',
         headers: {
@@ -53,15 +53,20 @@ const getLocalLeads = async (lat: number, lon: number) => {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         console.log('Request Body:', req.body);
-        const { location } = req.body;
+        const { location,category } = req.body;
 
         if (!location) {
             res.status(400).json({ success: false, error: 'Location not provided' });
             return;
         }
 
-        const coordinates = await getCoordinates(location);
-        const localLeads = await getLocalLeads(coordinates.lat, coordinates.lon);
+        if (!category) {
+            res.status(400).json({ success: false, error: 'Category not provided' });
+            return;
+        }
+
+        const coordinates = await getCoordinates(location,category);
+        const localLeads = await getLocalLeads(coordinates.lat, coordinates.lon,category);
 
         res.status(200).json({ success: true, coordinates, localLeads });
     } catch (error) {
