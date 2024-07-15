@@ -29,7 +29,7 @@ const LocationForm = () => {
 
             if (data.success) {
                 setCoordinates(data.coordinates);
-                setLocalLeads(data.localLeads); // Set the local leads
+                setLocalLeads(data.localLeads); // Set the leads
             } else {
                 setError(data.error);
             }
