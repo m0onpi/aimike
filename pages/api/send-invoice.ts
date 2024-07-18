@@ -8,7 +8,7 @@ const OAuth2 = google.auth.OAuth2;
 const clientID = process.env.GMAIL_CLIENT_ID!;
 const clientSecret = process.env.GMAIL_CLIENT_SECRET!;
 const refreshToken = process.env.GMAIL_REFRESH_TOKEN!;
-const redirectURI = 'http://localhost:3000/api/auth/callback';
+const redirectURI = process.env.REDIRECT!;
 
 const oauth2Client = new OAuth2(clientID, clientSecret, redirectURI);
 oauth2Client.setCredentials({ refresh_token: refreshToken });
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       from: 'Ai Mike <sales@aimike.dev>',
       to: customer.email,
       subject: "Your Invoice from Aimike",
-      text: `Dear ${customer.name},
+      text: `Dear,
     
     We hope this message finds you well. Please find your invoice attached.
     
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       html: `
         <html>
           <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-            <h2 style="color: #333;">Hello ${customer.name},</h2>
+            <h2 style="color: #333;">Hello,</h2>
             <p>We hope this message finds you well. Please find your invoice below:</p>
             <p><strong>Payment Link:</strong> <a href="${paymentLink.url}" style="color: #1a73e8;">${paymentLink.url}</a></p>
             <p>Thank you for your business.</p>
