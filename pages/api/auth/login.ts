@@ -5,12 +5,13 @@ import prisma from './../../../lib/prisma'; // Adjust this import based on your 
 import { useRouter } from 'next/navigation';
 
 export default async function Handler(req: NextApiRequest, res: NextApiResponse) {
+  const router = useRouter();
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   const { email, password } = req.body;
-  const router = useRouter();
 
 
   try {
