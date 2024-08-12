@@ -49,6 +49,8 @@ export const authOptions: NextAuthOptions = {
     session({ session, token }) {
       if (token) {
         session.user.id = token.id;
+        session.user.hasPaid = token.hasPaid; // Add hasPaid to the session
+
       }
       return session;
     },
