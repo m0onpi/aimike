@@ -32,12 +32,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (event.type) {
       case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session;
+        console.log(session)
+
+        const customerEmail = session.customer_details?.email;
 
         // Update the user's payment status in the database
+        if (customerEmail){
         await prisma.user.update({
-          where: { email: session.customer_email as string },
+          where: { email: customerEmail },
           data: { hasPaid: true },
-        });
+        })};
 
         break;
       // Handle other event types if necessary
