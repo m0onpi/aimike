@@ -9,6 +9,7 @@ type LayoutProps = {
   children: ReactNode;
 };
 
+
 const Layout = ({ children }: LayoutProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

@@ -17,12 +17,12 @@ export default function LoginForm() {
     setError('');
 
     const result = await signIn('credentials', {
-      redirect: false, // Prevents automatic redirect
+      redirect: false,
       email,
       password,
     });
 
-    setLoading(false);
+    setLoading(true);
 
     if (result?.error) {
       // If there is an error, display it

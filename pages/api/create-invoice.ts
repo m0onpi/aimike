@@ -10,15 +10,16 @@ const OAuth2 = google.auth.OAuth2;
 const clientID = process.env.GMAIL_CLIENT_ID!;
 const clientSecret = process.env.GMAIL_CLIENT_SECRET!;
 const refreshToken = process.env.GMAIL_REFRESH_TOKEN!;
-const redirectURI = 'http://localhost:3000/api/auth/callback';
+const redirectURI = process.env.REDIRECT!;
 
 const oauth2Client = new OAuth2(clientID, clientSecret, redirectURI);
 oauth2Client.setCredentials({ refresh_token: refreshToken });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST"){
-    const { customerEmail, formattedItem } = req.body;
-    console.log(formattedItem)
+    const { customerEmail, item } = req.body;
+    console.log(customerEmail)
+    console.log(item)
     
     try {
       // Create a customer if one doesn't exist
@@ -27,12 +28,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
       const price = await stripe.prices.create({
         currency: 'gbp',
-        unit_amount: `${formattedItem.amount}`,
+        unit_amount: `${item.amount}`,
         recurring: {
           interval: 'month',
         },
         product_data: {
-          name: formattedItem.description,
+          name: "consult",
         },
       });
       

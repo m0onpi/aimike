@@ -10,12 +10,7 @@ export default function PaymentPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === 'loading') return;
-    if (!session) {
-      router.push('/login');
-    }
-  }, [status, session, router]);
+  console.log(session, status)
 
   const handlePayment = async () => {
     setLoading(true);
