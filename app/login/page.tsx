@@ -1,15 +1,27 @@
 "use client";
 
-import { useState, FormEvent } from 'react';
-import { signIn } from 'next-auth/react';
+import { useState, FormEvent, useEffect } from 'react';
+import { signIn,useSession  } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'loading') return; // Do nothing while loading
+    if (session) {
+      console.log(session)
+      if (session.user?.hasPaid) {
+        router.push('/dashboard'); // Redirect to dashboard if the user has already paid
+      } else {
+      }
+    }
+  }, [session, status, router]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +41,6 @@ export default function LoginForm() {
       setError(result.error);
     } else {
       // If login is successful, redirect to the payment page
-      router.push('/payment');
     }
   };
 

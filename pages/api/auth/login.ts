@@ -22,9 +22,8 @@ export default async function Handler(req: NextApiRequest, res: NextApiResponse)
     if (!user || !user.password || !(await compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
-
+    
     res.status(200).json({ message: 'Login successful' });
-    router.push('/payment');
 
     
   } catch (error) {
