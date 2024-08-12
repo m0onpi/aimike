@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user || !(await compare(credentials.password, user.password))) {
+        if (!user || !user.password || !(await compare(credentials.password, user.password))) {
           throw new Error('Invalid email or password');
         }
 
