@@ -46,11 +46,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ],
       });
 
-      await prisma.user.update({
-        where: { email: customerEmail },
-        data: { hasPaid: true },
-      });
-
 
     const accessToken = await oauth2Client.getAccessToken();
 
@@ -77,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, link: paymentLink.url });
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error sending email' });

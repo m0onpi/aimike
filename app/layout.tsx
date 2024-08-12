@@ -47,6 +47,12 @@ const Layout = ({ children }: LayoutProps) => {
               <Link className="hover:underline" href="/contact" passHref>
                 Contact
               </Link>
+              <Link className="hover:underline" href="/signup" passHref> 
+          Sign Up
+        </Link>
+        <Link className="hover:underline" href="/login" passHref> 
+          Login
+        </Link>
             </nav>
             <button className="md:hidden" onClick={toggleMenu}>
               <svg

@@ -10,8 +10,6 @@ export default function PaymentPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  console.log(session, status)
-
   const handlePayment = async () => {
     setLoading(true);
     setError('');
@@ -26,7 +24,7 @@ export default function PaymentPage() {
           customerEmail: session?.user?.email,
           item: {
             currency: 'usd',
-            amount: 1000, // $10.00
+            amount: 10, // $10.00
             description: 'Monthly Subscription',
           },
         }),
@@ -38,7 +36,7 @@ export default function PaymentPage() {
 
       const data = await response.json();
       if (data.success) {
-        alert("Payment successful!");
+        router.push(`${data.link}`)
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
