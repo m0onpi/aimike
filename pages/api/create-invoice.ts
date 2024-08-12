@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+import prisma from "./../../lib/prisma"
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const OAuth2 = google.auth.OAuth2;
 
@@ -41,6 +43,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             quantity: 1,
           },
         ],
+      });
+
+      await prisma.user.update({
+        where: { email: customerEmail },
+        data: { hasPaid: true },
       });
 
 

@@ -1,7 +1,9 @@
-"use client"
+"use client";
+
 import { ReactNode, useState } from 'react';
 import './globals.css';
 import Link from 'next/link';
+import { SessionProvider } from 'next-auth/react';
 
 type LayoutProps = {
   children: ReactNode;
@@ -21,11 +23,12 @@ const Layout = ({ children }: LayoutProps) => {
         <meta name="description" content="AI Mike website" />
       </head>
       <body>
+        <SessionProvider>
         <div className="flex flex-col min-h-screen">
           <header className="flex justify-between items-center p-4 bg-gray-900">
             <div className="text-2xl font-bold">AI Mike</div>
             <nav className="hidden md:flex space-x-4">
-              <Link className="hover:underline"  href="/" passHref>
+              <Link className="hover:underline" href="/" passHref>
                 Home
               </Link>
               <Link className="hover:underline" href="/services/consulting" passHref>
@@ -35,7 +38,7 @@ const Layout = ({ children }: LayoutProps) => {
                 Machine Learning
               </Link>
               <Link className="hover:underline" href="/services/automation" passHref>
-               Automation
+                Automation
               </Link>
               <Link className="hover:underline" href="/about" passHref>
                 About
@@ -63,23 +66,23 @@ const Layout = ({ children }: LayoutProps) => {
           </header>
           <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
             <nav className="flex flex-col space-y-2 p-4 bg-gray-800">
-              <Link className="hover:underline" onClick={toggleMenu}  href="/" passHref>
+              <Link className="hover:underline" onClick={toggleMenu} href="/" passHref>
                 Home
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu}  href="/services/consulting" passHref>
+              <Link className="hover:underline" onClick={toggleMenu} href="/services/consulting" passHref>
                 Consulting
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu}  href="/services/machine-learning" passHref>
+              <Link className="hover:underline" onClick={toggleMenu} href="/services/machine-learning" passHref>
                 Machine Learning
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu}  href="/services/automation" passHref>
+              <Link className="hover:underline" onClick={toggleMenu} href="/services/automation" passHref>
                 Automation
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu}  href="/about" passHref>
+              <Link className="hover:underline" onClick={toggleMenu} href="/about" passHref>
                 About
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu}  href="/contact" passHref>
-               Contact
+              <Link className="hover:underline" onClick={toggleMenu} href="/contact" passHref>
+                Contact
               </Link>
             </nav>
           </div>
@@ -88,6 +91,7 @@ const Layout = ({ children }: LayoutProps) => {
             © 2024 AI Mike. All rights reserved.
           </footer>
         </div>
+        </SessionProvider>
       </body>
     </html>
   );

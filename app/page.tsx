@@ -5,6 +5,7 @@ import { FaRobot, FaCog, FaBrain, FaLaptopCode } from 'react-icons/fa';
 
 export default function Home() {
   return (
+    
     <main>
     <Layout>
       <div className="text-center my-12">
