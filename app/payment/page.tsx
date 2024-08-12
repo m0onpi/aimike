@@ -24,7 +24,7 @@ export default function PaymentPage() {
           customerEmail: session?.user?.email,
           item: {
             currency: 'usd',
-            amount: 10, // $10.00
+            amount: 30, // $10.00
             description: 'Monthly Subscription',
           },
         }),
