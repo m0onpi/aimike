@@ -43,10 +43,10 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.hasPaid = user.hasPaid
-        token.hasProject = user.hasProject
-        token.email = user.email
-        token.projectId = user.projectId
+        token.hasPaid = user.hasPaid;
+        token.hasProject = user.hasProject;
+        token.email = user.email;
+        token.projectId = user.projectId ? user.projectId: '';
       }
       return token;
     },
@@ -54,9 +54,9 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.id;
         session.user.hasPaid = token.hasPaid;
-        session.user.hasProject = token.hasProject
-        session.user.projectId = token.projectId
-        session.user.email = token.email // Add hasPaid to the session
+        session.user.hasProject = token.hasProject;
+        session.user.projectId = token.projectId;
+        session.user.email = token.email; // Add hasPaid to the session
 
       }
       return session;
