@@ -1,54 +1,59 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import fetch from 'node-fetch';
+// pages/api/job.ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '../../lib/prisma';
 
-const API_URL = 'https://www.freelancer.com/api/projects/0.1/projects';
-const API_KEY = process.env.FREELANCER_API_KEY; // Store your API key in an environment variable
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    const { title, description, budget, currency, jobs, userEmail } = req.body;
 
-interface FreelancerJobResponse {
-    id: number;
-    status: string;
-}
+    try {
+      // Check if the user already has a project
+      const user = await prisma.user.findUnique({
+        where: { email: userEmail },
+      });
 
-interface ApiResponse {
-    success: boolean;
-    projectId?: number;
-    status?: string;
-    error?: string;
-}
+      if (user?.hasProject) {
+        return res.status(200).json({ success: true,projectId: user?.projectId });
+      }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
-    if (req.method === 'POST') {
-        const { title, description, budget, currency, jobs } = req.body;
+      // Call Freelancer API to create a new project
+      const response = await fetch('https://www.freelancer-sandbox.com/api/projects/0.1/projects/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'freelancer-oauth-v1': process.env.FREELANCER_SANDBOX_API_KEY!,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          currency,
+          budget,
+          jobs,
+        }),
+      });
 
-        try {
-            const freelancerResponse = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'freelancer-oauth-v1': `${API_KEY}`,
-                },
-                body: JSON.stringify({
-                    title,
-                    description,
-                    budget,
-                    currency,
-                    jobs,
-                }),
-            });
+      const data = await response.json();
 
-            if (!freelancerResponse.ok) {
-                const errorData = await freelancerResponse.json();
-                res.status(500).json({ success: false, error: 'errorData.status' || 'Failed to create job on Freelancer' });
-                return;
-            }
+      if (!response.ok) {
+        return res.status(response.status).json({ success: false, error: data.message || 'Failed to create project on Freelancer' });
+      }
 
-            const data = (await freelancerResponse.json()) as FreelancerJobResponse;
+      const projectId = data.result.id;
+      const projectStatus = data.result.status;
 
-            res.status(200).json({ success: true, projectId: data.id, status: data.status });
-        } catch (error: any) {
-            res.status(500).json({ success: false, error: error.message });
-        }
-    } else {
-        res.status(405).json({ success: false, error: 'Method not allowed' });
+      // Update the user's record with the project ID and set hasProject to true
+      await prisma.user.update({
+        where: { email: userEmail },
+        data: { projectId: String(projectId) , hasProject: true },
+      });
+
+      res.status(200).json({ success: true, projectId, status: projectStatus });
+    } catch (error) {
+      console.error('Error creating project on Freelancer:', error);
+      res.status(500).json({ success: false, error: 'An unexpected error occurred' });
     }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
 }

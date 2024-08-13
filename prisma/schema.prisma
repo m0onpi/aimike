@@ -17,6 +17,8 @@ model User {
   hasPaid       Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
+  hasProject  Boolean  @default(false)
+  projectId   String?  // Store the Freelancer project ID
 }
 
 model Account {

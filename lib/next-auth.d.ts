@@ -9,6 +9,8 @@ declare module "next-auth" {
     id: string;
     hasPaid: boolean;
     password: string | null;
+    hasProject: boolean;
+    projectId: string | null;
   }
 
   interface Session {
@@ -18,6 +20,8 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       hasPaid: boolean;
+      hasProject: boolean;
+      projectId?: string | null;
     };
   }
 }
@@ -26,5 +30,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     hasPaid: boolean;
+    hasProject: boolean;
+    projectId: string;
   }
 }
