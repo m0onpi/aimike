@@ -1,99 +1,138 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export default function AdminDashboard() {
-  const [users, setUsers] = useState([]); // Initialize as an empty array
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+const Dashboard = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [projectInfo, setProjectInfo] = useState<any>(null);
 
   useEffect(() => {
-    // Fetch users who have paid
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/admin/getPaidUsers');
-        const data = await response.json();
-        setUsers(data.users || []); // Safeguard against undefined data.users
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (status === 'loading') return; // Wait until the session is loaded
 
-    fetchUsers();
-  }, []);
+    if (!session) {
+      // Redirect to login if the user is not logged in
+      router.push('/login');
+      return;
+    }
 
-  const handleFetchBids = async (userId) => {
-    setLoading(true);
-    setMessage('');
+    if (!session.user?.hasPaid) {
+      // Redirect to payment page if the user hasn't paid
+      router.push('/payment');
+      return;
+    }
+
+    if (session.user?.hasProject) {
+      // Fetch existing project details if the user has an associated project
+      fetchProjectDetails(session.user.projectId);
+    } else if (session.user?.hasPaid && !session.user?.hasProject) {
+      // Create a new project if the user has paid but doesn't have a project
+      createNewProject(session.user.email);
+    } else {
+      setLoading(false); // No need to create a project, stop loading
+    }
+  }, [session, status, router]);
+
+  const fetchProjectDetails = async (projectId: string | null | undefined) => {
+    if (!projectId) {
+      setError('Project ID not found');
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch(`/api/admin/fetchBids`, {
-        method: 'POST',
+      const res = await fetch(`/api/projects/${projectId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (response.ok) {
-        setMessage(`Bids fetched successfully for user ${userId}`);
-        // Update user status or re-fetch users if needed
+      if (res.ok && data.result) {
+        console.log(data)
+        setProjectInfo(data.result);
       } else {
-        setMessage(`Error fetching bids: ${data.error}`);
+        setError(data.error || 'Failed to fetch project details');
       }
-    } catch (error) {
-      setMessage('An error occurred while fetching bids.');
-    } finally {
+      setLoading(false);
+    } catch (err) {
+      setError('An error occurred while fetching project details');
       setLoading(false);
     }
   };
 
+  const createNewProject = async (email: string | null | undefined) => {
+    if (!email) {
+      setError('User email not found');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/job', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: 'New Project Title', // Customize this
+          description: 'Project description goes here', // Customize this
+          budget: {
+            minimum: 10, // Example budget
+            maximum: 100, // Example budget
+          },
+          currency: {
+            id: 1, // Example currency ID
+          },
+          jobs: [{ id: 3 }], // Example job ID
+          userEmail: email, // Pass the user's email
+        }),
+      });
+
+      const data = await res.json();
+      console.log(data, "test")
+
+      if (data) {
+        fetchProjectDetails(data.projectId)
+      } else {
+        setError(data.error || 'Failed to create project');
+        setLoading(false);
+      }
+    } catch (err) {
+      setError('An error occurred while creating the project');
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-
-      {message && (
-        <div className={`mb-4 p-2 ${message.startsWith('Error') ? 'bg-red-200 text-red-700' : 'bg-green-200 text-green-700'}`}>
-          {message}
+    <div>
+      <h1>Welcome to your Dashboard</h1>
+      {projectInfo ? (
+        <div>
+          <h2>Project Details</h2>
+          <p>Project ID: {projectInfo.id}</p>
+          <p>Title: {projectInfo.title}</p>
+          <p>Status: {projectInfo.status}</p>
+          <p>Description: {projectInfo.preview_description}</p>
+          {/* Display more project details as needed */}
         </div>
-      )}
-
-      {loading ? (
-        <div>Loading...</div>
       ) : (
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 bg-gray-200">Name</th>
-              <th className="py-2 px-4 bg-gray-200">Email</th>
-              <th className="py-2 px-4 bg-gray-200">Project Status</th>
-              <th className="py-2 px-4 bg-gray-200">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="border-t">
-                <td className="py-2 px-4">{user.name}</td>
-                <td className="py-2 px-4">{user.email}</td>
-                <td className="py-2 px-4">{user.hasProject ? 'Project Created' : 'No Project'}</td>
-                <td className="py-2 px-4">
-                  <button
-                    onClick={() => handleFetchBids(user.id)}
-                    className="bg-indigo-600 text-white py-1 px-4 rounded hover:bg-indigo-700 disabled:bg-gray-400"
-                    disabled={loading}
-                  >
-                    {loading ? 'Fetching...' : 'Fetch Bids'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <p>No project information available.</p>
       )}
     </div>
   );
-}
+};
+
+export default Dashboard;
