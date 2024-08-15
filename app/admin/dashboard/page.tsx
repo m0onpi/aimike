@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-
+import Link from 'next/link';
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]); // Initialize as an empty array
   const [loading, setLoading] = useState(false);
@@ -68,21 +68,27 @@ export default function AdminDashboard() {
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr>
-              <th className="py-2 px-4 bg-gray-200">Name</th>
-              <th className="py-2 px-4 bg-gray-200">Email</th>
-              <th className="py-2 px-4 bg-gray-200">Project Status</th>
-              <th className="py-2 px-4 bg-gray-200">Actions</th>
+              <th className="py-2 px-4 bg-gray-200 text-gray-900">Name</th>
+              <th className="py-2 px-4 bg-gray-200 text-gray-900">Email</th>
+              <th className="py-2 px-4 bg-gray-200 text-gray-900">Project Status</th>
+              <th className="py-2 px-4 bg-gray-200 text-gray-900">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.id} className="border-t">
-                <td className="py-2 px-4">{user.name}</td>
-                <td className="py-2 px-4">{user.email}</td>
-                <td className="py-2 px-4">{user.hasProject ? 'Project Created' : 'No Project'}</td>
+                <td className="py-2 px-4 text-gray-900">{user.name}</td>
+                <td className="py-2 px-4 text-gray-900">{user.email}</td>
                 <td className="py-2 px-4">
+                  <Link legacyBehavior href={`/admin/${user.id}`}>
+                    <a className="text-indigo-600 hover:text-indigo-900">View Details</a>
+                  </Link>
+                  </td>
+                <td className="py-2 px-4 text-gray-900">{user.hasProject ? 'Project Created' : 'No Project'}</td>
+                <td className="py-2 px-4 text-gray-900">
+                    
                   <button
-                    onClick={() => handleFetchBids(user.id)}
+                    onClick={() => handleFetchBids(user.projectId)}
                     className="bg-indigo-600 text-white py-1 px-4 rounded hover:bg-indigo-700 disabled:bg-gray-400"
                     disabled={loading}
                   >

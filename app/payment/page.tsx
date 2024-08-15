@@ -23,9 +23,9 @@ export default function PaymentPage() {
         body: JSON.stringify({
           customerEmail: session?.user?.email,
           item: {
-            currency: 'usd',
-            amount: 30, // $10.00
-            description: 'Monthly Subscription',
+            currency: 'gbp',
+            amount: 20000, // $10.00
+            description: 'AI Consultant Appointment',
           },
         }),
       });
@@ -47,6 +47,11 @@ export default function PaymentPage() {
 
   if (status === 'loading') {
     return <div>Loading...</div>;
+
+  }
+
+  if (session?.user.hasPaid){
+    router.push('/dashboard')
   }
 
   if (!session) {
@@ -60,14 +65,11 @@ export default function PaymentPage() {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Complete Your Payment
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Subscribe to access premium features
-          </p>
         </div>
         <div className="mt-8 space-y-6">
           <div className="flex items-center justify-between p-4 bg-white rounded-lg shadow">
-            <span className="text-lg font-medium text-gray-900">Monthly Subscription</span>
-            <span className="text-2xl font-semibold text-indigo-600">$10.00</span>
+            <span className="text-lg font-medium text-gray-900">AI Consultant Appointment</span>
+            <span className="text-2xl font-semibold text-indigo-600">£200.00</span>
           </div>
           {error && (
             <div className="text-red-500 text-sm mt-2">{error}</div>

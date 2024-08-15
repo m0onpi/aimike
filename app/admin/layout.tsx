@@ -10,7 +10,7 @@ export default function AdminLayout({
   return (
     <>
       <Nav>
-        <NavLink href="/admin">Dashboard</NavLink>
+        <NavLink href="/admin/dashboard">Dashboard</NavLink>
         <NavLink href="/admin/invoice">Invoice</NavLink>
         <NavLink href="/admin/leads">Lead Generator</NavLink>
         <NavLink href="/admin/mike">Ai Mike</NavLink>

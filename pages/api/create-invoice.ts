@@ -29,9 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const price = await stripe.prices.create({
         currency: 'gbp',
         unit_amount: `${item.amount}`,
-        recurring: {
-          interval: 'month',
-        },
         product_data: {
           name: "consult",
         },

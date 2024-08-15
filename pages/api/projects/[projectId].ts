@@ -6,9 +6,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Fetch project details from Freelancer API
-    const response = await fetch(`https://www.freelancer-sandbox.com/api/projects/0.1/projects/${projectId}`, {
+    const response = await fetch(`https://www.freelancer.com/api/projects/0.1/projects/${projectId}`, {
       headers: {
-        'freelancer-oauth-v1': process.env.FREELANCER_SANDBOX_API_KEY!,
+        'freelancer-oauth-v1': process.env.FREELANCER_LIVE_API_KEY!,
         'Content-Type': 'application/json',
       },
     });
