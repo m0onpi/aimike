@@ -7,11 +7,12 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+  const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
-    const router = useRouter();
 
     try {
       const res = await fetch('/api/auth/signup', {
@@ -61,7 +62,7 @@ export default function SignupPage() {
         <h2 className="text-3xl font-extrabold text-gray-900 text-center">
           Create your account
         </h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={HandleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="name" className="sr-only">Name</label>
