@@ -8,11 +8,14 @@ const UserDetailsPage = ({ params }) => {
   const { userID } = params;
   const [userDetails, setUserDetails] = useState(null);
   const [bids, setBids] = useState(null);
+  const [thread, setThreads] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [fetchingBids, setFetchingBids] = useState(false);
+  const [fetchingThread, setFetchingThreads] = useState(false);
   const [confirmingBid, setConfirmingBid] = useState(null); // Track which bid is being confirmed
-
+  const [confirmingThread, setconfirmingThread] = useState(null); 
+  
   useEffect(() => {
     if (!userID) return;
 
@@ -53,7 +56,7 @@ const UserDetailsPage = ({ params }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setBids(data.bids.bids);
+        setThreads(data.bids.bids);
         console.log(data.bids)
       } else {
         setError(`Error fetching bids: ${data.error}`);
@@ -62,6 +65,38 @@ const UserDetailsPage = ({ params }) => {
       setError('An error occurred while fetching bids.');
     } finally {
       setFetchingBids(false);
+    }
+  };
+
+  const handleFetchThread = async (userProjectId) => {
+    setFetchingThreads(true);
+    setError('');
+    
+    try {
+      const response = await fetch(`/api/admin/fetchThread`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userProjectId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setThreads(data.threads.threads[0].id);
+        console.log(data.threads)
+        await prisma.user.update({
+          where: { email: userDetails.email },
+          data: { threadID: thread },
+        })
+      } else {
+        setError(`Error fetching bids: ${data.error}`);
+      }
+    } catch (error) {
+      setError('An error occurred while fetching threads.');
+    } finally {
+      setFetchingThreads(false);
     }
   };
 
@@ -153,7 +188,19 @@ const UserDetailsPage = ({ params }) => {
       ) : (
         <div>
           <p><strong>Name:</strong> {userDetails.name}</p>
-        </div>)}
+          <button
+                      onClick={() => handleFetchThread(userDetails.projectId)}
+                      className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
+                      disabled={confirmingThread === userDetails.id || userDetails.status === 'confirmed'}
+                    >
+                      {confirmingThread === userDetails.id ? 'Confirming...' : userDetails.status === 'confirmed' ? 'Confirmed' : 'Confirm Thread'}
+                    </button>
+                    <p><strong> Thread: </strong> {thread}</p>
+
+        </div>
+      
+      )}
+
     </div>
   );
 };

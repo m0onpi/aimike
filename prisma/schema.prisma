@@ -20,6 +20,7 @@ model User {
   hasProject  Boolean  @default(false)
   projectId   String?  // Store the Freelancer project ID
   hasBid      Boolean  @default(false)
+  threadID    String?  // Store the Freelancer project ID
 }
 
 model Account {
