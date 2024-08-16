@@ -3,16 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = req.body;
+  const { userProjectId } = req.body;
 
   try {
 
-    if (!userId) {
+    if (!userProjectId) {
       return res.status(400).json({ error: 'User has no project' });
     }
 
     // Fetch bids from the Freelancer API
-    const response = await fetch(`https://www.freelancer-sandbox.com/api/projects/0.1/projects/${userId}/bids`, {
+    const response = await fetch(`https://www.freelancer-sandbox.com/api/projects/0.1/projects/${userProjectId}/bids`, {
       headers: {
         'freelancer-oauth-v1': process.env.FREELANCER_SANDBOX_API_KEY!,
       },

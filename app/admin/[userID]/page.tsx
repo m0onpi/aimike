@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import prisma from '../../../lib/prisma';
 
 const UserDetailsPage = ({ params }) => {
   const router = useRouter();
@@ -10,6 +11,7 @@ const UserDetailsPage = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [fetchingBids, setFetchingBids] = useState(false);
+  const [confirmingBid, setConfirmingBid] = useState(null); // Track which bid is being confirmed
 
   useEffect(() => {
     if (!userID) return;
@@ -20,6 +22,8 @@ const UserDetailsPage = ({ params }) => {
         const data = await response.json();
         if (response.ok) {
           setUserDetails(data.user);
+          
+          
         } else {
           setError('Failed to fetch user details');
         }
@@ -61,6 +65,37 @@ const UserDetailsPage = ({ params }) => {
     }
   };
 
+  const handleConfirmBid = async (bidId) => {
+    setConfirmingBid(bidId); // Set the current bid being confirmed
+    setError('');
+
+    try {
+      const response = await fetch(`/api/admin/acceptBid`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bidId }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setBids(bids.map(bid => bid.id === bidId ? { ...bid, status: 'confirmed' } : bid));
+        await prisma.user.update({
+          where: { email: userDetails.email },
+          data: { hasBid: true },
+        })
+      } else {
+        setError(`Error confirming bid: ${data.error}`);
+      }
+    } catch (error) {
+      setError('An error occurred while confirming the bid.');
+    } finally {
+      setConfirmingBid(null); // Clear the current bid being confirmed
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -72,7 +107,8 @@ const UserDetailsPage = ({ params }) => {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">User Details for {userID}</h1>
-      {userDetails ? (
+
+      {!userDetails.hasBid ? (
         <div>
           <p><strong>Name:</strong> {userDetails.name}</p>
           <p><strong>Email:</strong> {userDetails.email}</p>
@@ -86,7 +122,6 @@ const UserDetailsPage = ({ params }) => {
           >
             {fetchingBids ? 'Fetching Bids...' : 'Fetch Bids'}
           </button>
-
           {/* Display bids if available */}
           {bids && (
             <div className="mt-8">
@@ -94,18 +129,31 @@ const UserDetailsPage = ({ params }) => {
               <ul>
                 {bids.map((bid, index) => (
                   <li key={index} className="border-b py-2">
-                    <p><strong>Bidder:</strong> {bid.bidderId}</p>
+                    <p><strong>Bidder:</strong> {bid.bidder_id}</p>
                     <p><strong>Amount:</strong> ${bid.amount}</p>
                     <p><strong>Description:</strong> {bid.description}</p>
+                    <p><strong>Reputation:</strong> {bid.score}</p>
+                    <button
+                      onClick={() => handleConfirmBid(bid.id)}
+                      className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
+                      disabled={confirmingBid === bid.id || bid.status === 'confirmed'}
+                    >
+                      {confirmingBid === bid.id ? 'Confirming...' : bid.status === 'confirmed' ? 'Confirmed' : 'Confirm Bid'}
+                    </button>
                   </li>
-                ))}
+                  
+                  
+                ))
+                
+                }
               </ul>
             </div>
           )}
         </div>
       ) : (
-        <p>No details available for this user.</p>
-      )}
+        <div>
+          <p><strong>Name:</strong> {userDetails.name}</p>
+        </div>)}
     </div>
   );
 };
