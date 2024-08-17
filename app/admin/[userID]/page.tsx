@@ -6,6 +6,28 @@ interface Params {
   userID: string;
 }
 
+interface UserDetails {
+  name: string;
+  email: string;
+  hasProject: boolean;
+  hasBid: boolean;
+  projectId: string;
+  status: string;
+}
+
+interface Bid {
+  id: number;
+  bidder_id: number;
+  amount: number;
+  description: string;
+  score: number;
+  status: string;
+}
+
+interface Thread {
+  id: string;
+}
+
 interface UserDetailsPageProps {
   params: Params;
 }
@@ -47,7 +69,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     fetchUserDetails();
   }, [userID]);
 
-  const handleFetchBids = async (userId) => {
+  const handleFetchBids = async (userId: string) => {
     setFetchingBids(true);
     setError('');
     
@@ -75,7 +97,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     }
   };
 
-  const handleFetchThread = async (userProjectId) => {
+  const handleFetchThread = async (userProjectId: string) => {
     setFetchingThreads(true);
     setError('');
     
@@ -107,7 +129,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     }
   };
 
-  const handleConfirmBid = async (bidId) => {
+  const handleConfirmBid = async (bidId: string) => {
     setConfirmingBid(bidId); // Set the current bid being confirmed
     setError('');
 
@@ -125,7 +147,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       if (response.ok) {
         setBids(bids.map(bid => bid.id === bidId ? { ...bid, status: 'confirmed' } : bid));
         await prisma.user.update({
-          where: { email: userDetails.email },
+          where: { email: userDetails?.email },
           data: { hasBid: true },
         })
       } else {
