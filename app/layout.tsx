@@ -91,6 +91,12 @@ const Layout = ({ children }: LayoutProps) => {
               <Link className="hover:underline" onClick={toggleMenu} href="/contact" passHref>
                 Contact
               </Link>
+              <Link className="hover:underline"onClick={toggleMenu} href="/signup" passHref> 
+                Sign Up
+              </Link>
+              <Link className="hover:underline" onClick={toggleMenu} href="/login" passHref> 
+                Login
+              </Link>
             </nav>
           </div>
           <main className="flex-grow">{children}</main>

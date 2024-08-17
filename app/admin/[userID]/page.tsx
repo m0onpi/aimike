@@ -2,8 +2,15 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import prisma from '../../../lib/prisma';
+interface Params {
+  userID: string;
+}
 
-const UserDetailsPage = ({ params }) => {
+interface UserDetailsPageProps {
+  params: Params;
+}
+
+const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const router = useRouter();
   const { userID } = params;
   const [userDetails, setUserDetails] = useState(null);
