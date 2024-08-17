@@ -116,7 +116,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
         setThreads(data.threads.threads[0].id);
         console.log(data.threads)
         await prisma.user.update({
-          where: { email: userDetails.email },
+          where: { email: userDetails?.email },
           data: { threadID: thread },
         })
       } else {
@@ -145,7 +145,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       const data = await response.json();
 
       if (response.ok) {
-        setBids(bids.map(bid => bid.id === bidId ? { ...bid, status: 'confirmed' } : bid));
+        setBids(bids?.map(bid => bid.id === bidId ? { ...bid, status: 'confirmed' } : bid));
         await prisma.user.update({
           where: { email: userDetails?.email },
           data: { hasBid: true },
@@ -172,15 +172,15 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">User Details for {userID}</h1>
 
-      {!userDetails.hasBid ? (
+      {!userDetails?.hasBid ? (
         <div>
-          <p><strong>Name:</strong> {userDetails.name}</p>
-          <p><strong>Email:</strong> {userDetails.email}</p>
-          <p><strong>Project Status:</strong> {userDetails.hasProject ? 'Project Created' : 'No Project'}</p>
+          <p><strong>Name:</strong> {userDetails?.name}</p>
+          <p><strong>Email:</strong> {userDetails?.email}</p>
+          <p><strong>Project Status:</strong> {userDetails?.hasProject ? 'Project Created' : 'No Project'}</p>
 
           {/* Button to fetch bids */}
           <button
-            onClick={() => handleFetchBids(userDetails.projectId)}
+            onClick={() => handleFetchBids(userDetails?.projectId)}
             className="bg-indigo-600 text-white py-2 px-4 rounded mt-4 hover:bg-indigo-700 disabled:bg-gray-400"
             disabled={fetchingBids}
           >
@@ -216,9 +216,9 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
         </div>
       ) : (
         <div>
-          <p><strong>Name:</strong> {userDetails.name}</p>
+          <p><strong>Name:</strong> {userDetails?.name}</p>
           <button
-                      onClick={() => handleFetchThread(userDetails.projectId)}
+                      onClick={() => handleFetchThread(userDetails?.projectId)}
                       className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
                       disabled={confirmingThread === userDetails.id || userDetails.status === 'confirmed'}
                     >
