@@ -1,6 +1,18 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+
+interface User {
+  name: string;
+  email: string;
+  hasProject: boolean;
+  hasBid: boolean;
+  projectId: string;
+  status: string;
+  id: number
+}
+
+
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]); // Initialize as an empty array
   const [loading, setLoading] = useState(false);
@@ -24,7 +36,7 @@ export default function AdminDashboard() {
     fetchUsers();
   }, []);
 
-  const handleFetchBids = async (userId) => {
+  const handleFetchBids = async (userId: string | undefined) => {
     setLoading(true);
     setMessage('');
 
@@ -75,7 +87,7 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users.map((user: User) => (
               <tr key={user.id} className="border-t">
                 <td className="py-2 px-4 text-gray-900">{user.name}</td>
                 <td className="py-2 px-4 text-gray-900">{user.email}</td>
