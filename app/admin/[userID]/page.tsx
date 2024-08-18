@@ -117,7 +117,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
         console.log(data.threads)
         
         await prisma.user.update({
-          where: { email: userDetails.email },
+          where: { email: userDetails?.email },
           data: { threadID: thread },
         })
       } else {
