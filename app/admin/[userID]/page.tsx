@@ -69,7 +69,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     fetchUserDetails();
   }, [userID]);
 
-  const handleFetchBids = async (userId: string) => {
+  const handleFetchBids = async (userId: string | undefined) => {
     setFetchingBids(true);
     setError('');
     
