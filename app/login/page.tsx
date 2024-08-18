@@ -41,6 +41,7 @@ export default function LoginForm() {
       setError(result.error);
     } else {
       // If login is successful, redirect to the payment page
+      router.push('/payment')
     }
   };
 
