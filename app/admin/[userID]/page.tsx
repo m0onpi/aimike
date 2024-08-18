@@ -13,6 +13,7 @@ interface UserDetails {
   hasBid: boolean;
   projectId: string;
   status: string;
+  id: number
 }
 
 interface Bid {
