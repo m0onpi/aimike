@@ -42,7 +42,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const [error, setError] = useState('');
   const [fetchingBids, setFetchingBids] = useState(false);
   const [fetchingThread, setFetchingThreads] = useState(false);
-  const [confirmingBid, setConfirmingBid] = useState(''); // Track which bid is being confirmed
+  const [confirmingBid, setConfirmingBid] = useState<number | null>(null);
   const [confirmingThread, setconfirmingThread] = useState(null); 
   
   useEffect(() => {
@@ -130,7 +130,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     }
   };
 
-  const handleConfirmBid = async (bidId: string) => {
+  const handleConfirmBid = async (bidId: number) => {
     setConfirmingBid(bidId); // Set the current bid being confirmed
     setError('');
 
@@ -157,7 +157,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     } catch (error) {
       setError('An error occurred while confirming the bid.');
     } finally {
-      setConfirmingBid(''); // Clear the current bid being confirmed
+      setConfirmingBid(null); // Clear the current bid being confirmed
     }
   };
 
