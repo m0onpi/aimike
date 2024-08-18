@@ -35,7 +35,7 @@ interface UserDetailsPageProps {
 const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const router = useRouter();
   const { userID } = params;
-  const [userDetails, setUserDetails] = useState(null);
+  const [userDetails, setUserDetails]  = useState<UserDetails>(null);
   const [bids, setBids] = useState(null);
   const [thread, setThreads] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -115,8 +115,9 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       if (response.ok) {
         setThreads(data.threads.threads[0].id);
         console.log(data.threads)
+        
         await prisma.user.update({
-          where: { email: userDetails?.email },
+          where: { email: userDetails.email },
           data: { threadID: thread },
         })
       } else {
