@@ -35,14 +35,14 @@ interface UserDetailsPageProps {
 const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const router = useRouter();
   const { userID } = params;
-  const [userDetails, setUserDetails]  = useState<UserDetails>(null);
+  const [userDetails, setUserDetails]  = useState<UserDetails>();
   const [bids, setBids] = useState(null);
   const [thread, setThreads] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [fetchingBids, setFetchingBids] = useState(false);
   const [fetchingThread, setFetchingThreads] = useState(false);
-  const [confirmingBid, setConfirmingBid] = useState(null); // Track which bid is being confirmed
+  const [confirmingBid, setConfirmingBid] = useState(''); // Track which bid is being confirmed
   const [confirmingThread, setconfirmingThread] = useState(null); 
   
   useEffect(() => {
@@ -157,7 +157,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
     } catch (error) {
       setError('An error occurred while confirming the bid.');
     } finally {
-      setConfirmingBid(null); // Clear the current bid being confirmed
+      setConfirmingBid(''); // Clear the current bid being confirmed
     }
   };
 
