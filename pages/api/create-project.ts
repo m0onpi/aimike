@@ -47,9 +47,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error(`Unexpected response format: ${textResponse}`);
       }
     } catch (error) {
-      console.error('Error creating project on Freelancer:', error);
-      res.status(500).json({ success: false, error: error.message });
-    }
+        console.error('Error creating project on Freelancer:', error);
+  
+        if (error instanceof Error) {
+          res.status(500).json({ success: false, error: error.message });
+        } else {
+          res.status(500).json({ success: false, error: 'An unknown error occurred' });
+        }
+      }
   } else {
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
