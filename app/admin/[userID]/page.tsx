@@ -11,7 +11,7 @@ interface UserDetails {
   email: string;
   hasProject: boolean;
   hasBid: boolean;
-  projectId: number;
+  projectId: string;
   status: string;
   id: number;
   threadID:string;
@@ -201,7 +201,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
 
           {/* Button to fetch bids */}
           <button
-            onClick={() => handleFetchBids(userDetails.projectId)}
+            onClick={() => handleFetchBids(userDetails?.projectId)}
             className="bg-indigo-600 text-white py-2 px-4 rounded mt-4 hover:bg-indigo-700 disabled:bg-gray-400"
             disabled={fetchingBids}
           >
