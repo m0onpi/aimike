@@ -25,6 +25,9 @@ interface Bid {
   score: number;
   status: string;
 }
+interface Messages {
+  message: string;
+}
 
 interface Thread {
   id: string;
@@ -46,6 +49,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const [fetchingThread, setFetchingThreads] = useState(false);
   const [confirmingBid, setConfirmingBid] = useState<number | null>(null);
   const [confirmingThread, setconfirmingThread] = useState(null); 
+  const [messages, setMessages] = useState<Messages[]>([]);
   
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -101,7 +105,6 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const handleFetchThread = async (userProjectId: string) => {
     setFetchingThreads(true);
     setError('');
-  
     if (!userDetails?.threadID) {
       try {
         const response = await fetch(`/api/admin/fetchThread`, {
@@ -146,8 +149,31 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       } finally {
         setFetchingThreads(false);
       }
+    }else {
+      try {
+        const response = await fetch(`/api/admin/getMessages`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ threadID: userDetails.threadID }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          console.log(data)
+          setMessages(data.messages)
+        } else {
+          setError(`Error fetching thread: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching threads:', error);
+  
+
     }
-  };
+  }
+};
   
 
   const handleConfirmBid = async (bidId: number) => {
@@ -246,7 +272,18 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                       {confirmingThread === userDetails.id ? 'Confirming...' : userDetails.status === 'confirmed' ? 'Confirmed' : 'Confirm Thread'}
                     </button>
                     <p><strong> Thread: </strong> {userDetails?.threadID}</p>
+                    <ul>
+                {messages.map((message, index) => (
+                  <li key={index} className="border-b py-2">
+                    <p><strong>Message:</strong> {message.message}</p>
 
+                  </li>
+                  
+                  
+                ))
+                
+                }
+              </ul>
         </div>
       
       )}
