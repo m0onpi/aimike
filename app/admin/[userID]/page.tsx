@@ -11,9 +11,10 @@ interface UserDetails {
   email: string;
   hasProject: boolean;
   hasBid: boolean;
-  projectId: string;
+  projectId: number;
   status: string;
-  id: number
+  id: number;
+  threadID:string;
 }
 
 interface Bid {
@@ -47,14 +48,13 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const [confirmingThread, setconfirmingThread] = useState(null); 
   
   useEffect(() => {
-    if (!userID) return;
-
     const fetchUserDetails = async () => {
       try {
         const response = await fetch(`/api/admin/userDetails/${userID}`);
         const data = await response.json();
         if (response.ok) {
           setUserDetails(data.user);
+          console.log(data.user)
           
           
         } else {
@@ -86,14 +86,14 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       const data = await response.json();
 
       if (response.ok) {
-        setThreads(data.bids.bids);
+        setBids(data.bids.bids);
         console.log(data.bids)
       } else {
         setError(`Error fetching bids: ${data.error}`);
       }
     } catch (error) {
       setError('An error occurred while fetching bids.');
-    } finally {
+    } finally{
       setFetchingBids(false);
     }
   };
@@ -101,35 +101,54 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const handleFetchThread = async (userProjectId: string) => {
     setFetchingThreads(true);
     setError('');
-    
-    try {
-      const response = await fetch(`/api/admin/fetchThread`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userProjectId }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setThreads(data.threads.threads[0].id);
-        console.log(data.threads)
-        
-        await prisma.user.update({
-          where: { email: userDetails?.email },
-          data: { threadID: thread },
-        })
-      } else {
-        setError(`Error fetching bids: ${data.error}`);
+  
+    if (!userDetails?.threadID) {
+      try {
+        const response = await fetch(`/api/admin/fetchThread`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userProjectId }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          const threadId = data.threads.threads[0].id;
+          setThreads(threadId);
+  
+          if (userDetails?.email) {
+            // Make an API call to update the thread ID
+            const updateResponse = await fetch('/api/admin/updateThread', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email: userDetails.email, threadID: `${threadId}` }),
+            });
+  
+            if (!updateResponse.ok) {
+              throw new Error('Failed to update thread ID in the database');
+            }
+          }
+        } else {
+          setError(`Error fetching thread: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching threads:', error);
+  
+        if (error instanceof Error) {
+          setError(`An error occurred: ${error.message}`);
+        } else {
+          setError('An unknown error occurred.');
+        }
+      } finally {
+        setFetchingThreads(false);
       }
-    } catch (error) {
-      setError('An error occurred while fetching threads.');
-    } finally {
-      setFetchingThreads(false);
     }
   };
+  
 
   const handleConfirmBid = async (bidId: number) => {
     setConfirmingBid(bidId); // Set the current bid being confirmed
@@ -182,7 +201,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
 
           {/* Button to fetch bids */}
           <button
-            onClick={() => handleFetchBids(userDetails?.projectId)}
+            onClick={() => handleFetchBids(userDetails.projectId)}
             className="bg-indigo-600 text-white py-2 px-4 rounded mt-4 hover:bg-indigo-700 disabled:bg-gray-400"
             disabled={fetchingBids}
           >
@@ -226,7 +245,7 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                     >
                       {confirmingThread === userDetails.id ? 'Confirming...' : userDetails.status === 'confirmed' ? 'Confirmed' : 'Confirm Thread'}
                     </button>
-                    <p><strong> Thread: </strong> {thread}</p>
+                    <p><strong> Thread: </strong> {userDetails?.threadID}</p>
 
         </div>
       

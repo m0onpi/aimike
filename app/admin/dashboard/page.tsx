@@ -7,9 +7,9 @@ interface User {
   email: string;
   hasProject: boolean;
   hasBid: boolean;
-  projectId: string;
   status: string;
-  id: number
+  projectId: string;
+  id: string;
 }
 
 
