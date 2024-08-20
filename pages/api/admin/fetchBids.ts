@@ -4,8 +4,7 @@ import prisma from '../../../lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.body;
-  console.log(req.body)
-  console.log(userId)
+
   try {
 
     if (!userId) {
@@ -20,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const bids = await response.json();
-    console.log(bids.result.bids)
 
     if (!response.ok) {
       return res.status(response.status).json({ error: bids.message || 'Failed to fetch bids' });

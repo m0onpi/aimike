@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { threadID } = req.body;
-  console.log(threadID)
   
   try {
     const response = await fetch(`https://www.freelancer.com/api/messages/0.1/messages/?threads[]=${threadID}`, {
@@ -13,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     const data = await response.json();
-    console.log(data)
     if (!response.ok) {
       return res.status(response.status).json({ error: data.message || 'Failed to fetch messages' });
     }

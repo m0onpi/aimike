@@ -95,7 +95,7 @@ export default function PaymentPage() {
           {loading ? 'Processing...' : 'Pay Now'}
         </button>
         <p className="mt-4 text-xs text-gray-600 text-center">
-          Your satisfaction is our priority. If you're not completely satisfied with your consultation, contact us within 24 hours.
+          Your satisfaction is our priority. If you&apos;re not completely satisfied with your consultation, contact us within 24 hours.
         </p>
       </div>
     </div>
