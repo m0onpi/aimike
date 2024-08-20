@@ -32,6 +32,9 @@ const Layout = ({ children }: LayoutProps) => {
               <Link className="hover:underline" href="/" passHref>
                 Home
               </Link>
+              <Link className="hover:underline" href="/dashboard" passHref>
+                Dashboard
+              </Link>
               <Link className="hover:underline" href="/services/consulting" passHref>
                 Consulting
               </Link>
@@ -75,6 +78,9 @@ const Layout = ({ children }: LayoutProps) => {
             <nav className="flex flex-col space-y-2 p-4 bg-gray-800">
               <Link className="hover:underline" onClick={toggleMenu} href="/" passHref>
                 Home
+              </Link>
+              <Link className="hover:underline" onClick={toggleMenu} href="/dashboard" passHref>
+                Dashboard
               </Link>
               <Link className="hover:underline" onClick={toggleMenu} href="/services/consulting" passHref>
                 Consulting

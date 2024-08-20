@@ -116,21 +116,45 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      <h1>Welcome to your Dashboard</h1>
-      {projectInfo ? (
-        <div>
-          <h2>Project Details</h2>
-          <p>Project ID: {projectInfo.id}</p>
-          <p>Title: {projectInfo.title}</p>
-          <p>Status: {projectInfo.status}</p>
-          <p>Description: {projectInfo.preview_description}</p>
-          {/* Display more project details as needed */}
+<div className="min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex flex-col items-center justify-center p-6">
+  <div className="max-w-4xl bg-white rounded-lg shadow-lg p-8 text-center text-gray-900">
+    <h1 className="text-5xl font-extrabold mb-4">Welcome to Your Dashboard</h1>
+    <p className="text-lg mb-6">
+      Congratulations on taking the first step towards revolutionizing your business with AI! We are thrilled to have you on board.
+    </p>
+
+    {projectInfo ? (
+      <div>
+        <h2 className="text-3xl font-bold mb-4">Your Project Details</h2>
+        <div className="text-left">
+          <p className="text-lg mb-2"><strong>Project ID:</strong> {projectInfo.id}</p>
+          <p className="text-lg mb-2"><strong>Title:</strong> {projectInfo.title}</p>
+          {/* Add more project details as needed */}
         </div>
-      ) : (
-        <p>No project information available.</p>
-      )}
+
+        <div className="bg-blue-100 text-blue-800 p-4 rounded-lg shadow-md mt-6">
+          <p className="text-lg">
+            Your appointment is being scheduled. You will receive an email confirmation shortly with all the details.
+          </p>
+        </div>
+      </div>
+    ) : (
+      <div className="text-lg">
+        <p>No project information available at the moment.</p>
+      </div>
+    )}
+
+    <div className="mt-8">
+      <a
+        href="/contact"
+        className="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300"
+      >
+        Contact Support
+      </a>
     </div>
+  </div>
+</div>
+
   );
 };
 

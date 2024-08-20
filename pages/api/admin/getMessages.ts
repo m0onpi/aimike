@@ -6,9 +6,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log(threadID)
   
   try {
-    const response = await fetch(`https://www.freelancer-sandbox.com/api/messages/0.1/messages/?threads[]=${threadID}`, {
+    const response = await fetch(`https://www.freelancer.com/api/messages/0.1/messages/?threads[]=${threadID}`, {
       headers: {
-        'freelancer-oauth-v1': process.env.FREELANCER_SANDBOX_API_KEY!,
+        'freelancer-oauth-v1': process.env.FREELANCER_LIVE_API_KEY!,
       },
     });
 

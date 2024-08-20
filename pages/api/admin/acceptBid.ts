@@ -6,10 +6,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     // Call Freelancer API to accept the bid
-    const response = await fetch(`https://www.freelancer-sandbox.com/api/projects/0.1/bids/${bidId}/`, {
+    const response = await fetch(`https://www.freelancer.com/api/projects/0.1/bids/${bidId}/`, {
       method: 'PUT',
       headers: {
-        'freelancer-oauth-v1': process.env.FREELANCER_SANDBOX_API_KEY!,
+        'freelancer-oauth-v1': process.env.FREELANCER_LIVE_API_KEY!,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({ action: 'award' }),
