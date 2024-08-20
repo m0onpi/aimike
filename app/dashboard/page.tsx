@@ -79,22 +79,21 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: 'New Project Title', // Customize this
-          description: 'Project description goes here', // Customize this
+          title: '1-2HR AI Consultancy', // Customize this
+          description: 'I need an AI expert to help a client understand how he can add AI into his business, you will show them what you can do for them, you must not talk about prices with them over the appointment, just tell them we can price it after but focus on finding the solution they need, you must come back to me and give me a breakdown of the needs of the client, if all goes well you will be hired to do the project. english speaking only', // Customize this
           budget: {
-            minimum: 10, // Example budget
-            maximum: 100, // Example budget
+            minimum: 30, // Example budget
+            maximum: 60, // Example budget
           },
           currency: {
-            id: 1, // Example currency ID
+            id: 4, // Example currency ID
           },
-          jobs: [{ id: 3 }], // Example job ID
+          jobs: [{ id: 913 }], // Example job ID
           userEmail: email, // Pass the user's email
         }),
       });
 
       const data = await res.json();
-      console.log(data, "test")
 
       if (data) {
         fetchProjectDetails(data.projectId)

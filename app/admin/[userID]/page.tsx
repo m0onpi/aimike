@@ -27,6 +27,8 @@ interface Bid {
 }
 interface Messages {
   message: string;
+  from_user: string;
+  message_source: string;
 }
 
 interface Thread {
@@ -175,7 +177,9 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   }
 };
   
-
+  const handleSendEmail = async (email: string) => {
+    console.log("test")
+  }
   const handleConfirmBid = async (bidId: number) => {
     setConfirmingBid(bidId); // Set the current bid being confirmed
     setError('');
@@ -276,6 +280,13 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                 {messages.map((message, index) => (
                   <li key={index} className="border-b py-2">
                     <p><strong>Message:</strong> {message.message}</p>
+                    <p><strong>Source:</strong> {message.message_source}</p>
+                    <p><strong>User:</strong> {message.from_user}</p>
+                    <button
+                      onClick={() => handleSendEmail(userDetails?.email)}
+                      className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
+                    > send Email
+                    </button>
 
                   </li>
                   

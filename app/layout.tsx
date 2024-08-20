@@ -48,11 +48,11 @@ const Layout = ({ children }: LayoutProps) => {
                 Contact
               </Link>
               <Link className="hover:underline" href="/signup" passHref> 
-          Sign Up
-        </Link>
-        <Link className="hover:underline" href="/login" passHref> 
-          Login
-        </Link>
+                Sign Up
+              </Link>
+              <Link className="hover:underline" href="/login" passHref> 
+                Login
+              </Link>
             </nav>
             <button className="md:hidden" onClick={toggleMenu}>
               <svg
@@ -100,9 +100,17 @@ const Layout = ({ children }: LayoutProps) => {
             </nav>
           </div>
           <main className="flex-grow">{children}</main>
-          <footer className="text-center p-4 bg-gray-900">
-            © 2024 AI Mike. All rights reserved.
+          <footer className="text-center p-4 bg-gray-900 text-white">
+            <div className="mb-2">
+              © 2024 AI Mike. All rights reserved.
+            </div>
+            <div>
+              <Link href="/tos" passHref>
+                Terms and Conditions
+              </Link>
+            </div>
           </footer>
+
         </div>
         </SessionProvider>
       </body>

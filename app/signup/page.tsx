@@ -2,6 +2,9 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AIHologram from './../../public/brain.png'; // adjust the path as necessary
+import Image from 'next/image';
+
 export default function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
