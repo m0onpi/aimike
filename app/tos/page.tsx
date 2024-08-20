@@ -50,7 +50,7 @@ export default function TermsAndConditionsPage() {
           <section>
             <h2 className="text-3xl font-bold mb-4">6. Confidentiality</h2>
             <ul className="list-disc list-inside mb-4">
-              <li><strong>Confidential Information:</strong> We take the confidentiality of our clients' information seriously. Any information shared during the consultation will be treated with strict confidentiality and will not be disclosed to third parties without your consent.</li>
+              <li><strong>Confidential Information:</strong> We take the confidentiality of our clients&apos; information seriously. Any information shared during the consultation will be treated with strict confidentiality and will not be disclosed to third parties without your consent.</li>
               <li><strong>Use of Information:</strong> You agree that we may use your information internally to improve our services, develop new products, and enhance our customer experience.</li>
             </ul>
           </section>
