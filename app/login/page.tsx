@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, FormEvent, useEffect } from 'react';
 import { signIn,useSession  } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -19,6 +18,7 @@ export default function LoginForm() {
       if (session.user?.hasPaid) {
         router.push('/dashboard'); // Redirect to dashboard if the user has already paid
       } else {
+        router.push('/payment')
       }
     }
   }, [session, status, router]);

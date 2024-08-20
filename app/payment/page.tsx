@@ -97,13 +97,14 @@ export default function PaymentPage() {
         <p className="mt-4 text-xs text-gray-600 text-center">
           Your satisfaction is our priority. If you&apos;re not completely satisfied with your consultation, contact us within 24 hours.
         </p>
-      </div>
-    </div>
-    <div className="text-center mt-8">
-      <p className="text-sm">
-        <strong>Limited Time Offer:</strong> Book now and receive a 25% discount on your next project!
+        <div className="text-center text-red-500 mt-8">
+      <p className="text-xl text-gray">
+        Limited Time Offer: Book now and receive a 25% discount on your main project!
       </p>
     </div>
+      </div>
+    </div>
+
   </div>
 </div>
 

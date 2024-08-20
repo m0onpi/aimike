@@ -15,12 +15,14 @@ const Dashboard = () => {
 
     if (!session) {
       // Redirect to login if the user is not logged in
+      router.refresh()
       router.push('/login');
       return;
     }
 
     if (!session.user?.hasPaid) {
       // Redirect to payment page if the user hasn't paid
+      router.refresh
       router.push('/payment');
       return;
     }
