@@ -15,6 +15,7 @@ interface UserDetails {
   status: string;
   id: number;
   threadID:string;
+  hasMilestone: boolean;
 }
 
 interface Bid {
@@ -180,6 +181,39 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const handleSendEmail = async (email: string) => {
     console.log("test")
   }
+
+  const handleCreateMilestone = async (bidId: string, projectId: string, amount: number, description: string) => {
+    try {
+      const response = await fetch('/api/admin/confirmMilestone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bidId,
+          projectId,
+          amount,
+          description,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Milestone created:', data.milestone);
+        await prisma.user.update({
+          where: { email: userDetails?.email },
+          data: { hasMilestone: true },
+        })
+      } else {
+        console.error('Failed to create milestone:', data.error);
+      }
+    } catch (error) {
+      console.error('An error occurred while creating milestone:', error);
+    }
+  };
+  
+
   const handleConfirmBid = async (bidId: number) => {
     setConfirmingBid(bidId); // Set the current bid being confirmed
     setError('');
@@ -286,6 +320,12 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                       onClick={() => handleSendEmail(userDetails?.email)}
                       className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
                     > send Email
+                    </button>
+                    <button
+                      onClick={() => handleCreateMilestone(message.from_user, userDetails?.projectId, 50, 'First Milestone')}
+                      className="bg-green-600 text-white py-1 px-4 rounded"
+                    >
+                      Create Milestone
                     </button>
 
                   </li>
