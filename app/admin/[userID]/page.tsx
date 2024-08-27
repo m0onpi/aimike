@@ -53,6 +53,8 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   const [confirmingBid, setConfirmingBid] = useState<number | null>(null);
   const [confirmingThread, setconfirmingThread] = useState(null); 
   const [messages, setMessages] = useState<Messages[]>([]);
+  const [sendMessage, setSendMessage] = useState('');
+
   
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -178,9 +180,30 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
   }
 };
   
-  const handleSendEmail = async (email: string) => {
-    console.log("test")
-  }
+  const handleSendMessage = async (message: string, threadID:string, ) => {
+    try {
+      const response = await fetch('/api/admin/sendMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          threadID,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Message created:', data);
+
+      } else {
+        console.error('Failed to create message:', data.error);
+      }
+    } catch (error) {
+      console.error('An error occurred while sending message:', error);
+    }  }
 
   const handleCreateMilestone = async (bidId: string, projectId: string, amount: number, description: string) => {
     try {
@@ -302,6 +325,29 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
       ) : (
         <div>
           <p><strong>Name:</strong> {userDetails?.name}</p>
+          <form className="mt-8 space-y-6" onSubmit={() => handleSendMessage}>
+
+              <label htmlFor="message" className="sr-only">
+                Message
+              </label>
+              <input
+                id="message"
+                name="message"
+                type="text"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Message"
+                value={sendMessage}
+                onChange={(e) => setSendMessage(e.target.value)}
+              />
+                    <button
+                      onClick={() => handleSendMessage(sendMessage,userDetails.threadID)}
+                      className="bg-green-600 text-white py-1 px-4 rounded"
+                    >
+                      Send Message
+                    </button>
+            </form>
+
           <button
                       onClick={() => handleFetchThread(userDetails?.projectId)}
                       className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
@@ -316,11 +362,8 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                     <p><strong>Message:</strong> {message.message}</p>
                     <p><strong>Source:</strong> {message.message_source}</p>
                     <p><strong>User:</strong> {message.from_user}</p>
-                    <button
-                      onClick={() => handleSendEmail(userDetails?.email)}
-                      className="bg-green-600 text-white py-1 px-4 rounded mt-2 hover:bg-green-700 disabled:bg-gray-400"
-                    > send Email
-                    </button>
+                    <div>
+            </div>
                     <button
                       onClick={() => handleCreateMilestone(message.from_user, userDetails?.projectId, 50, 'First Milestone')}
                       className="bg-green-600 text-white py-1 px-4 rounded"
@@ -329,12 +372,15 @@ const UserDetailsPage = ({ params }: UserDetailsPageProps) => {
                     </button>
 
                   </li>
+
+                  
                   
                   
                 ))
                 
                 }
               </ul>
+              
         </div>
       
       )}

@@ -24,7 +24,7 @@ export default function PaymentPage() {
           customerEmail: session?.user?.email,
           item: {
             currency: 'gbp',
-            amount: 20000, // $10.00
+            amount: 19999, // £199.99
             description: 'AI Consultant Appointment',
           },
         }),
@@ -72,7 +72,7 @@ export default function PaymentPage() {
     <div className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-lg text-gray-900">
       <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow">
         <span className="text-lg font-medium">AI Consultant Appointment</span>
-        <span className="text-2xl font-semibold text-indigo-600">£200.00</span>
+        <span className="text-2xl font-semibold text-indigo-600">£199.99</span>
       </div>
       <div className="mt-4 text-sm">
         <p><strong>What&apos;s Included:</strong></p>
@@ -99,7 +99,7 @@ export default function PaymentPage() {
         </p>
         <div className="text-center text-red-500 mt-8">
       <p className="text-xl text-gray">
-        Limited Time Offer: Book now and receive a 25% discount on your main project!
+        Limited Time Offer: Book now and receive a full consultation refund and 25% discount on your main project!
       </p>
     </div>
       </div>
