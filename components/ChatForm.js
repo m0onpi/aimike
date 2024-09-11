@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 const ChatForm = () => {
     const [chat, setChat] = useState('');
+    const [response, setResponse] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,9 +21,9 @@ const ChatForm = () => {
         const data = await res.json();
         
         if (data.success) {
-            alert('Response: ' + data.response);
+            setResponse(data.response);
         } else {
-            alert('Error: ' + data.error);
+            setResponse('Error: ' + data.error);
         }
     };
 
@@ -45,6 +46,12 @@ const ChatForm = () => {
                     Enter Chat
                 </button>
             </form>
+            {response && (
+                <div className="mt-4 p-4 bg-white rounded shadow-md">
+                    <h2 className="text-xl font-bold">Response</h2>
+                    <p>{response}</p>
+                </div>
+            )}
         </div>
     )
 }

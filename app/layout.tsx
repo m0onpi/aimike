@@ -22,6 +22,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <title>AI Mike</title>
         <meta name="description" content="AI Mike website" />
+        <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="DQC1s32lVIm8ccLG" data-version="062024"></script>
       </head>
       <body>
         <SessionProvider>
