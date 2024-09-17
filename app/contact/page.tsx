@@ -1,6 +1,6 @@
 import Layout from '../layout';
 
-const Contact = () => {
+export default function Contact() {
   return (
     <Layout>
       <div className="text-center my-12">
@@ -12,4 +12,3 @@ const Contact = () => {
   );
 };
 
-export default Contact;
