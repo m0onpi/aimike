@@ -31,7 +31,7 @@ const FaqsSection = () => {
 
                 </Disclosure.Button>
                 <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-300">
-                  Our software is fully customizable to match your brand identity, including logos, colors, and specific features to meet your clients' needs.
+                  Our software is fully customizable to match your brand identity, including logos, colors, and specific features to meet your clients&apos; needs.
                 </Disclosure.Panel>
               </>
             )}

@@ -24,7 +24,21 @@ export default function Subscribe() {
       },
       method: 'POST',
     });
-
+    if (res.ok){
+      console.log(res.status)
+      await fetch('/api/fb/signup', {
+        body: JSON.stringify({
+          email: emailRef.current.value,
+          phone: phoneRef.current.value,
+          firstName: firstNameRef.current.value,
+          lastName: lastNameRef.current.value,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+    }
     const { error } = await res.json();
 
     if (error) {
@@ -37,6 +51,7 @@ export default function Subscribe() {
     emailRef.current.value = '';
     phoneRef.current.value = '';
     setMessage('Success! 🎉 You are now subscribed to the newsletter.');
+    
   };
 
   return (
