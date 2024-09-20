@@ -16,7 +16,7 @@ export default function BlogPage() {
         <div className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-lg text-gray-900">
           <h2 className="text-2xl font-bold">Introduction</h2>
           <p className="mt-4">
-            In this blog post, we'll explore how to use <strong>Termux</strong> on your Android device to send SMS messages using your own phone number. Termux is a powerful terminal emulator and Linux environment app that brings the power of the command line to your mobile device.
+            In this blog post, we&apos;ll explore how to use <strong>Termux</strong> on your Android device to send SMS messages using your own phone number. Termux is a powerful terminal emulator and Linux environment app that brings the power of the command line to your mobile device.
           </p>
 
           <h2 className="text-2xl font-bold mt-8">Prerequisites</h2>
@@ -43,7 +43,7 @@ export default function BlogPage() {
               </a>
               .
             </li>
-            <li>Open F-Droid and search for "Termux" and "Termux:API".</li>
+            <li>Open F-Droid and search for &quot;Termux&quot; and &quot;Termux:API&quot;.</li>
             <li>Install both applications.</li>
           </ol>
 
@@ -57,7 +57,7 @@ export default function BlogPage() {
 
           <h2 className="text-2xl font-bold mt-8">Step 3: Grant Necessary Permissions</h2>
           <p className="mt-4">
-            Termux needs permission to send SMS messages. Grant permissions by going to your device's settings:
+            Termux needs permission to send SMS messages. Grant permissions by going to your device&apos;s settings:
           </p>
           <ol className="list-decimal list-inside space-y-2 mt-4">
             <li>
@@ -70,11 +70,11 @@ export default function BlogPage() {
           <p className="mt-4">Use the following command to send an SMS message:</p>
           <pre className="bg-gray-100 p-4 rounded mt-4 overflow-x-auto">
             <code>
-              termux-sms-send -n +1234567890 "Hello from Termux!"
+              termux-sms-send -n +1234567890 &quot;Hello from Termux!&quot;
             </code>
           </pre>
           <p className="mt-4">
-            Replace <code>+1234567890</code> with the recipient's phone number and customize the message as needed.
+            Replace <code>+1234567890</code> with the recipient&apos;s phone number and customize the message as needed.
           </p>
 
           <h2 className="text-2xl font-bold mt-8">Step 5: Automate SMS Sending with a Script</h2>
@@ -111,7 +111,7 @@ termux-sms-send -n "$RECIPIENT" "$MESSAGE"`}
           <ul className="list-disc list-inside space-y-2 mt-4">
             <li>Double-check that all permissions are granted.</li>
             <li>Ensure your SIM card is active and has sufficient balance.</li>
-            <li>Verify that you're using the correct phone number format.</li>
+            <li>Verify that you&apos;re using the correct phone number format.</li>
           </ul>
 
           <h2 className="text-2xl font-bold mt-8">Conclusion</h2>
