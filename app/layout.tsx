@@ -101,6 +101,9 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" onClick={toggleMenu} href="/dashboard" passHref>
                 Dashboard
               </Link>
+              <Link className="hover:underline" onClick={toggleMenu} href="/blog" passHref>
+                Blog
+              </Link>
               <div className="relative">
                 <button className="hover:underline" onClick={toggleDropdown}>
                   Services
