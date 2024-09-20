@@ -10,13 +10,16 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-
 export default function Layout({ children }: { children: ReactNode }) {
-  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // For dropdown state
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -38,26 +41,39 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" href="/dashboard" passHref>
                 Dashboard
               </Link>
-              <Link className="hover:underline" href="/services/consulting" passHref>
-                Consulting
+              <Link className="hover:underline" href="/blog" passHref>
+                Blog
               </Link>
-              <Link className="hover:underline" href="/services/machine-learning" passHref>
-                Machine Learning
-              </Link>
-              <Link className="hover:underline" href="/services/automation" passHref>
-                Automation
-              </Link>
+              <div className="relative">
+                <button className="hover:underline" onClick={toggleDropdown}>
+                  Services
+                </button>
+                {/* Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div className="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-50">
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" href="/services/consulting" passHref>
+                      Consulting
+                    </Link>
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" href="/services/machine-learning" passHref>
+                      Machine Learning
+                    </Link>
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" href="/services/automation" passHref>
+                      Automation
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link className="hover:underline" href="/about" passHref>
                 About
               </Link>
               <Link className="hover:underline" href="/contact" passHref>
                 Contact
               </Link>
-              <Link className="hover:underline" href="/signup" passHref> 
+              <Link className="hover:underline" href="/signup" passHref>
                 Sign Up
               </Link>
-              <Link className="hover:underline" href="/login" passHref> 
-                 Login 
+              <Link className="hover:underline" href="/login" passHref>
+                Login
               </Link>
             </nav>
             <button className="md:hidden" onClick={toggleMenu}>
@@ -85,25 +101,35 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" onClick={toggleMenu} href="/dashboard" passHref>
                 Dashboard
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu} href="/services/consulting" passHref>
-                Consulting
-              </Link>
-              <Link className="hover:underline" onClick={toggleMenu} href="/services/machine-learning" passHref>
-                Machine Learning
-              </Link>
-              <Link className="hover:underline" onClick={toggleMenu} href="/services/automation" passHref>
-                Automation
-              </Link>
+              <div className="relative">
+                <button className="hover:underline" onClick={toggleDropdown}>
+                  Services
+                </button>
+                {/* Mobile Dropdown */}
+                {isDropdownOpen && (
+                  <div className="mt-2 w-48 bg-white border rounded-md shadow-lg z-50">
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" onClick={toggleMenu} href="/services/consulting" passHref>
+                      Consulting
+                    </Link>
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" onClick={toggleMenu} href="/services/machine-learning" passHref>
+                      Machine Learning
+                    </Link>
+                    <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-200" onClick={toggleMenu} href="/services/automation" passHref>
+                      Automation
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link className="hover:underline" onClick={toggleMenu} href="/about" passHref>
                 About
               </Link>
               <Link className="hover:underline" onClick={toggleMenu} href="/contact" passHref>
                 Contact
               </Link>
-              <Link  className="hover:underline"onClick={toggleMenu} href="/signup" passHref> 
+              <Link className="hover:underline" onClick={toggleMenu} href="/signup" passHref> 
                   Sign Up 
               </Link>
-              <Link  className="hover:underline" onClick={toggleMenu} href="/login" passHref> 
+              <Link className="hover:underline" onClick={toggleMenu} href="/login" passHref> 
                  Login 
               </Link>
             </nav>
@@ -120,22 +146,22 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
           </footer>
           <Script
-        id="facebook-pixel"
-        strategy="afterInteractive"
-      >
-        {`
-          !function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1037521884343984');
-          fbq('track', 'PageView');
-        `}
-      </Script>
+            id="facebook-pixel"
+            strategy="afterInteractive"
+          >
+            {`
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '1037521884343984');
+              fbq('track', 'PageView');
+            `}
+          </Script>
 
         </div>
         </SessionProvider>

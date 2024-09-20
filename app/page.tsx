@@ -1,3 +1,4 @@
+"use client"
 import Layout from './layout';
 import ServiceCard from '../components/ServiceCard';
 import Subscribe from '../components/News';
