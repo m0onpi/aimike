@@ -7,9 +7,9 @@ mailchimp.setConfig({
 });
 
 export default async (req, res) => {
-  const { firstName, lastName, email, phone, } = req.body;
+  const { firstName, lastName, email } = req.body;
 
-  if (!email || !firstName || !lastName || !phone) {
+  if (!email || !firstName || !lastName) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
