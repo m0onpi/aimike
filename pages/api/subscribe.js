@@ -20,7 +20,6 @@ export default async (req, res) => {
       merge_fields: {
         FNAME: firstName,
         LNAME: lastName,
-        PHONE: phone,
       },
     });
 
