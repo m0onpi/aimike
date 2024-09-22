@@ -64,12 +64,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       from: 'sales@aimike.dev',
       to: customerEmail,
       subject: "Invoice",
-      text: `Your invoice has been created. You can view and pay your invoice here: ${paymentLink.url}`,
+      text: `Your invoice has been created. You can view and pay your invoice here: ${paymentLink.url}?prefilled_email=${encodeURIComponent(customerEmail)}`,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ success: true, link: paymentLink.url });
+    res.status(200).json({ success: true, link: `${paymentLink.url}?prefilled_email=${encodeURIComponent(customerEmail)}`});
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error sending email' });

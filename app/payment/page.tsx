@@ -24,7 +24,7 @@ export default function PaymentPage() {
           customerEmail: session?.user?.email,
           item: {
             currency: 'gbp',
-            amount: 99, // £99.99
+            amount: 9999, // £99.99
             description: 'AI Mike Consultancy Appointment',
           },
         }),
