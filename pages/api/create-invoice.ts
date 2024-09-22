@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         currency: 'gbp',
         unit_amount: `${item.amount}`,
         product_data: {
-          name: "consult",
+          name: "AI Mike Consultancy",
         },
       });
       

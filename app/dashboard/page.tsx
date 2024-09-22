@@ -81,11 +81,11 @@ const Dashboard = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: '1-2HR AI Consultancy', // Customize this
-          description: 'I need an AI expert to help a client understand how he can add AI into his business, you will show them what you can do for them, you must not talk about prices with them over the appointment, just tell them we can price it after but focus on finding the solution they need, you must come back to me and give me a breakdown of the needs of the client, if all goes well you will be hired to do the project. english speaking only', // Customize this
+          title: '30-45 Minutes AI Consultancy', // Customize this
+          description: 'I need an AI expert to help a client understand how they can add AI into their business, you will show them what you can do for them, you must not talk about prices with them over the appointment, you must come back to me and give me a breakdown of the needs of the client, if all goes well you will be hired to do the project. english speaking only', // Customize this
           budget: {
-            minimum: 30, // Example budget
-            maximum: 60, // Example budget
+            minimum: 15, // Example budget
+            maximum: 30, // Example budget
           },
           currency: {
             id: 4, // Example currency ID

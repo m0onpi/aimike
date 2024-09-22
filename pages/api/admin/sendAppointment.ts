@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       from: 'sales@aimike.dev',
       to: customerEmail,
       subject: "AI Mike Appointment",
-      text: `Your ppointment has been created. You can view your information here aimike.dev/dashboard`,
+      text: `Your appointment has been created. You can view your information here aimike.dev/dashboard`,
     };
 
     await transporter.sendMail(mailOptions);

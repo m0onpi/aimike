@@ -24,8 +24,8 @@ export default function PaymentPage() {
           customerEmail: session?.user?.email,
           item: {
             currency: 'gbp',
-            amount: 19999, // £199.99
-            description: 'AI Consultant Appointment',
+            amount: 99, // £99.99
+            description: 'AI Mike Consultancy Appointment',
           },
         }),
       });
@@ -72,12 +72,13 @@ export default function PaymentPage() {
     <div className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-lg text-gray-900">
       <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow">
         <span className="text-lg font-medium">AI Consultant Appointment</span>
-        <span className="text-2xl font-semibold text-indigo-600">£199.99</span>
-      </div>
+        <span className="text-2xl font-semibold text-grey-500 line-through">£199.99</span> 
+        <span className="text-2xl font-semibold text-red-600 ml-2">£99.99</span>      
+        </div>
       <div className="mt-4 text-sm">
         <p><strong>What&apos;s Included:</strong></p>
         <ul className="list-disc list-inside space-y-1 mt-2">
-          <li>1-2 hour personalized AI consultation</li>
+          <li>30-45 minutes personalized AI consultation</li>
           <li>Comprehensive AI integration strategy</li>
           <li>Follow-up report with actionable insights</li>
           <li>Exclusive access to future AI resources</li>
