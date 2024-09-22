@@ -2,8 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSession, signOut} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-
-const Dashboard = () => {
+const Dashboard =  () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -19,6 +18,8 @@ const Dashboard = () => {
       router.push('/login');
       return;
     }
+
+    
 
     if (!session.user?.hasPaid) {
       // Redirect to payment page if the user hasn't paid

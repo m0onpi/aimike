@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function PaymentPage() {
@@ -105,7 +105,12 @@ export default function PaymentPage() {
     </div>
       </div>
     </div>
-
+    <button
+          onClick={() => signOut()}
+          className="inline-block bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition duration-300"
+        >
+          Logout
+        </button>
   </div>
 </div>
 

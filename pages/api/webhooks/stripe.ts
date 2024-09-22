@@ -1,6 +1,8 @@
 // pages/api/webhooks/stripe.ts
 import { buffer } from 'micro';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { useSession, signOut} from 'next-auth/react';
+
 import Stripe from 'stripe';
 import prisma from '../../../lib/prisma';
 
@@ -41,9 +43,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           where: { email: customerEmail },
           data: { hasPaid: true },
         })};
+        signOut()
+
 
         break;
-      // Handle other event types if necessary
+              // Handle other event types if necessary
       default:
         console.log(`Unhandled event type ${event.type}`);
     }
