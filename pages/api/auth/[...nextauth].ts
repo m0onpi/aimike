@@ -47,6 +47,8 @@ export const authOptions: NextAuthOptions = {
         token.hasProject = user.hasProject;
         token.email = user.email;
         token.projectId = user.projectId ? user.projectId: '';
+        token.hasMilestone = user.hasMilestone;
+
       }
       return token;
     },
@@ -57,6 +59,8 @@ export const authOptions: NextAuthOptions = {
         session.user.hasProject = token.hasProject;
         session.user.projectId = token.projectId;
         session.user.email = token.email; // Add hasPaid to the session
+        session.user.hasMilestone = token.hasMilestone;
+
 
       }
       return session;

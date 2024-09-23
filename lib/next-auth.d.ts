@@ -11,6 +11,7 @@ declare module "next-auth" {
     password: string | null;
     hasProject: boolean;
     projectId: string | null;
+    hasMilestone: boolean;
   }
 
   interface Session {
@@ -22,6 +23,8 @@ declare module "next-auth" {
       hasPaid: boolean;
       hasProject: boolean;
       projectId?: string | null;
+      hasMilestone: boolean;
+
     };
   }
 }
@@ -32,5 +35,7 @@ declare module "next-auth/jwt" {
     hasPaid: boolean;
     hasProject: boolean;
     projectId: string;
+    hasMilestone: boolean;
+
   }
 }

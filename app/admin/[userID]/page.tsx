@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import prisma from '../../../lib/prisma';
 interface Params {
   userID: string;
+  hasMilestone: boolean;
 }
 
 interface UserDetails {

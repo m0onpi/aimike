@@ -1,14 +1,10 @@
-"use client";
+"use client"
 
 import { ReactNode, useState } from 'react';
 import './globals.css';
 import Link from 'next/link';
 import { SessionProvider } from 'next-auth/react';
 import Script from "next/script";
-
-type LayoutProps = {
-  children: ReactNode;
-};
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

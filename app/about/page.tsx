@@ -1,4 +1,3 @@
-"use client"
 import Layout from '../layout';
 
 const About = () => {
