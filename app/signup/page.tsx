@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn,useSession  } from 'next-auth/react';
 import Image from 'next/image';
+import Layout from '../layout';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
@@ -12,17 +13,6 @@ export default function SignupPage() {
   const [error, setError] = useState('');
   const router = useRouter();
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (session) {
-      console.log(session)
-      if (session.user?.hasPaid) {
-        router.push('/dashboard'); // Redirect to dashboard if the user has already paid
-      } else {
-        router.push('/payment')
-      }
-    }
-  }, [session, status, router]);
 
   const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +38,7 @@ export default function SignupPage() {
   };
 
   return (
+    <Layout>
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       
       {/* Hero Section */}
@@ -145,5 +136,7 @@ export default function SignupPage() {
         </Link>
       </div>
     </div>
+    </Layout>
+
   );
 }

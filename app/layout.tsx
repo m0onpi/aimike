@@ -19,6 +19,8 @@ export default function Layout({ children }: { children: ReactNode }) {
   };
 
   return (
+    <SessionProvider>
+
     <html lang="en">
       <head>
         <title>AI Mike</title>
@@ -26,7 +28,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="DQC1s32lVIm8ccLG" data-version="062024"></script>
       </head>
       <body>
-        <SessionProvider>
         <div className="flex flex-col min-h-screen">
           <header className="flex justify-between items-center p-4 bg-gray-900">
             <div className="text-2xl font-bold">AI Mike</div>
@@ -68,7 +69,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" href="/signup" passHref>
                 Sign Up
               </Link>
-              <Link className="hover:underline" href="/login" passHref>
+              <Link className="hover:underline" href="/login" >
                 Login
               </Link>
             </nav>
@@ -128,7 +129,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" onClick={toggleMenu} href="/signup" passHref> 
                   Sign Up 
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu} href="/login" passHref> 
+              <Link className="hover:underline" onClick={toggleMenu} href="/login"> 
                  Login 
               </Link>
             </nav>
@@ -163,8 +164,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           </Script>
 
         </div>
-        </SessionProvider>
       </body>
     </html>
+    </SessionProvider>
+
   );
 };

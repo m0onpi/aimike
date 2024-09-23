@@ -7,9 +7,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    
-    <main>
-    <Layout>
+        <Layout>
       <div className="text-center my-12">
         <h1 className="text-5xl font-bold mb-4">Welcome to AI Mike</h1>
         <h2 className="text-3xl font-bold mb-4">Clear Solutions for Complex Problems.</h2>
@@ -27,8 +25,6 @@ export default function Home() {
         </div>
 
     </Layout>
-
-    </main>
   );
 };
 

@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useSession, signOut} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-const Dashboard =  () => {
+import Layout from '../layout';
+
+export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,6 @@ const Dashboard =  () => {
 
     if (!session) {
       // Redirect to login if the user is not logged in
-      router.refresh()
       router.push('/login');
       return;
     }
@@ -119,6 +120,7 @@ const Dashboard =  () => {
   }
 
   return (
+    <Layout>
     <div className="min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex flex-col items-center justify-center p-6">
     <div className="max-w-4xl bg-white rounded-lg shadow-lg p-8 text-center text-gray-900">
       <h1 className="text-5xl font-extrabold mb-4">Welcome to Your Dashboard</h1>
@@ -163,8 +165,9 @@ const Dashboard =  () => {
       </div>
     </div>
   </div>
+  </Layout>
+
 
   );
 };
 
-export default Dashboard;

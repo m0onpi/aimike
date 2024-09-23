@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession, signOut} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Layout from '../layout';
 
 export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,8 @@ export default function PaymentPage() {
   }
 
   return (
+    <Layout>
+
 <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 py-12 px-4 sm:px-6 lg:px-8 text-white">
   <div className="max-w-md w-full space-y-8">
     <div className="text-center">
@@ -113,6 +116,8 @@ export default function PaymentPage() {
         </button>
   </div>
 </div>
+</Layout>
+
 
   );
 }

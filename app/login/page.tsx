@@ -1,7 +1,8 @@
 "use client";
 import { useState, FormEvent, useEffect } from 'react';
-import { signIn,useSession  } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Layout from '../layout';
 
 export default function LoginForm() {
   const { data: session, status } = useSession();
@@ -11,16 +12,12 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // If the user is already logged in, redirect them to the dashboard
   useEffect(() => {
-    if (session) {
-      console.log(session)
-      if (session.user?.hasPaid) {
-        router.push('/dashboard'); // Redirect to dashboard if the user has already paid
-      } else {
-        router.push('/payment')
-      }
+    if (status === 'authenticated') {
+      router.push('/dashboard'); // Redirect to your preferred page
     }
-  }, [session, status, router]);
+  }, [status, router]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,18 +30,23 @@ export default function LoginForm() {
       password,
     });
 
-    setLoading(true);
+    setLoading(false); // Reset loading state after sign-in attempt
 
     if (result?.error) {
       // If there is an error, display it
       setError(result.error);
     } else {
       // If login is successful, redirect to the payment page
-      router.push('/payment')
+      router.push('/payment');
     }
   };
 
+  if (status === 'loading') {
+    return <p>Loading...</p>; // Handle loading state
+  }
+
   return (
+    <Layout>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
@@ -88,9 +90,7 @@ export default function LoginForm() {
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm mt-2">{error}</div>
-          )}
+          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
           <div>
             <button
@@ -104,5 +104,6 @@ export default function LoginForm() {
         </form>
       </div>
     </div>
+    </Layout>
   );
 }
