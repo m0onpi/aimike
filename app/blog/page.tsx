@@ -3,7 +3,7 @@
 'use client';
 
 import Link from 'next/link';
-
+import Layout from '../layout';
 export default function BlogIndexPage() {
   const blogPosts = [
     {
@@ -18,6 +18,7 @@ export default function BlogIndexPage() {
   ];
 
   return (
+    <Layout>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 py-12 px-4 sm:px-6 lg:px-8 text-white">
       <div className="max-w-3xl w-full space-y-8">
         <div className="text-center">
@@ -51,5 +52,7 @@ export default function BlogIndexPage() {
         </div>
       </div>
     </div>
+    </Layout>
+
   );
 }

@@ -69,7 +69,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" href="/signup" passHref>
                 Sign Up
               </Link>
-              <Link className="hover:underline" href="/login" >
+              <Link className="hover:underline" href="/login" passHref>
                 Login
               </Link>
             </nav>
@@ -129,7 +129,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" onClick={toggleMenu} href="/signup" passHref> 
                   Sign Up 
               </Link>
-              <Link className="hover:underline" onClick={toggleMenu} href="/login"> 
+              <Link className="hover:underline" onClick={toggleMenu} href="/login" passHref> 
                  Login 
               </Link>
             </nav>
