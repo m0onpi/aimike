@@ -1,8 +1,10 @@
 'use client';
+import Layout from "@/app/layout";
 
 export default function BlogPage() {
 
   return (
+    <Layout>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 py-12 px-4 sm:px-6 lg:px-8 text-white">
       <div className="max-w-3xl w-full space-y-8">
         <div className="text-center">
@@ -126,5 +128,6 @@ termux-sms-send -n "$RECIPIENT" "$MESSAGE"`}
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
