@@ -1,8 +1,8 @@
 'use client'
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import AIHologram from './../../public/brain.png'; // adjust the path as necessary
+import { signIn,useSession  } from 'next-auth/react';
 import Image from 'next/image';
 
 export default function SignupPage() {
@@ -11,7 +11,18 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const { data: session, status } = useSession();
 
+  useEffect(() => {
+    if (session) {
+      console.log(session)
+      if (session.user?.hasPaid) {
+        router.push('/dashboard'); // Redirect to dashboard if the user has already paid
+      } else {
+        router.push('/payment')
+      }
+    }
+  }, [session, status, router]);
 
   const HandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

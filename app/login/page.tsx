@@ -12,7 +12,6 @@ export default function LoginForm() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'loading') return; // Do nothing while loading
     if (session) {
       console.log(session)
       if (session.user?.hasPaid) {
