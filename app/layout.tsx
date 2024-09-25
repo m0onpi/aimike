@@ -101,7 +101,6 @@ export default function Layout({ children }: { children: ReactNode }) {
               <Link className="hover:underline" onClick={toggleMenu} href="/blog" passHref>
                 Blog
               </Link>
-              <div className="relative">
                 <button className="hover:underline" onClick={toggleDropdown}>
                   Services
                 </button>
@@ -119,7 +118,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                     </Link>
                   </div>
                 )}
-              </div>
               <Link className="hover:underline" onClick={toggleMenu} href="/about" passHref>
                 About
               </Link>
@@ -134,7 +132,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
             </nav>
           </div>
-          <main className="flex-grow">{children}</main>
+          <main>{children}</main>
           <footer className="text-center p-4 bg-gray-900 text-white">
             <div className="mb-2">
               © 2024 AI Mike. All rights reserved.
