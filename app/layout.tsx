@@ -17,6 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  
 
   return (
     <SessionProvider>
@@ -26,6 +27,22 @@ export default function Layout({ children }: { children: ReactNode }) {
         <title>AI Mike</title>
         <meta name="description" content="AI Mike website" />
         <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="DQC1s32lVIm8ccLG" data-version="062024"></script>
+        {/* Google Analytics */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=G-4JMSXPM6G4`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4JMSXPM6G4', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+        {/* End Google Analytics */}
       </head>
       <body>
         <div className="flex flex-col min-h-screen">
@@ -160,6 +177,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               fbq('track', 'PageView');
             `}
           </Script>
+
+          
 
         </div>
       </body>
