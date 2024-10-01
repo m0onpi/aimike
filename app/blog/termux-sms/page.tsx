@@ -72,7 +72,7 @@ export default function BlogPage() {
             <p className="mt-4">Use the following command to send an SMS message:</p>
             <pre className="bg-gray-100 p-4 rounded mt-4 overflow-x-auto">
               <code>
-                termux-sms-send -n +1234567890 "Hello from Termux!"
+                termux-sms-send -n +1234567890 &quot;Hello from Termux!&quot;
               </code>
             </pre>
             <p className="mt-4">
@@ -81,7 +81,7 @@ export default function BlogPage() {
 
             <h2 className="text-2xl font-bold mt-8">Step 5: Automate SMS Sending with a Script</h2>
             <p className="mt-4">
-              To automate sending SMS messages to multiple recipients, you can create a script that reads from a CSV file and sends personalized messages. Here's how you can do it:
+              To automate sending SMS messages to multiple recipients, you can create a script that reads from a CSV file and sends personalized messages. Here&apos;s how you can do it:
             </p>
 
             <h3 className="text-xl font-semibold mt-6">Create a CSV File</h3>
@@ -128,7 +128,7 @@ while IFS=, read -r phone firstname delivery_date delivery_time; do
   contact_name="$firstname $delivery_date"
 
   # Add contact via adb
-  adb shell am start -a android.intent.action.INSERT \\
+  am start -a android.intent.action.INSERT \\
     -t vnd.android.cursor.dir/contact \\
     --es name "$contact_name" \\
     --es phone "+44$phone"
