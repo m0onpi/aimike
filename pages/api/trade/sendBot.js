@@ -1,13 +1,15 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import fetchChartData from "../webhooks/tradingview"
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     // Handle POST request
     try {
       const { message } = req.body;
+      console.log(message)
+      const dataChart = await fetchChartData();
+      console.log(dataChart)
       return res.status(200).json(message); // Exit after sending response
+      
     } catch (error) {
       console.error('Error saving alert:', error);
       return res.status(500).json({ error: 'Error saving alert' }); // Exit after sending response

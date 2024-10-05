@@ -45,9 +45,11 @@ export const fetchChartData = async (): Promise<void> => {
 
     // Parse the response data as JSON
     const data = await response.json();
+    console.log(data);
+
+    return data
 
     // Log the response data
-    console.log(data);
   } catch (error) {
     // Handle any errors that occur during the fetch
     console.error('Error fetching chart data:', error);
