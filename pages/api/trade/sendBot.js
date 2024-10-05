@@ -5,7 +5,8 @@ export default async function handler(req, res) {
     // Handle POST request
     try {
       const { message } = req.body;
-      console.log(message.json())
+      const data = message.json()
+      console.log(data)
       return res.status(200).json(message); // Exit after sending response
       
     } catch (error) {
