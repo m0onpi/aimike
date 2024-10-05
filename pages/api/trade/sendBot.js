@@ -6,8 +6,6 @@ export default async function handler(req, res) {
     try {
       const { message } = req.body;
       console.log(message)
-      const dataChart = await fetchChartData();
-      console.log(dataChart)
       return res.status(200).json(message); // Exit after sending response
       
     } catch (error) {
