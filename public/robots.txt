@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://aimike.dev
+Host: https://www.aimike.dev
 
 # Sitemaps
-Sitemap: https://aimike.dev/sitemap.xml
+Sitemap: https://www.aimike.dev/sitemap.xml

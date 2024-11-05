@@ -57,3 +57,14 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Book {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  hasBooked     Boolean  @default(false)
+  phone         String?
+  date          String?
+  time          String?
+  status        String   @default("pending") // New field
+}

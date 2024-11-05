@@ -4,6 +4,7 @@ import ServiceCard from '../components/ServiceCard';
 import Subscribe from '../components/News';
 import { FaComments, FaCalendarCheck, FaBullhorn, FaClock, FaBolt, FaShieldAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import BookForm from '@/components/BookForm';
 
 export default function Home() {
   return (
@@ -29,7 +30,7 @@ export default function Home() {
         </ul>
       </div>
       <div className="text-center my-12">
-        <Subscribe />
+        <BookForm />
       </div>
     </Layout>
   );
