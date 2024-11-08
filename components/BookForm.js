@@ -72,9 +72,9 @@ export default function BookForm() {
   };
 
   return (
-    <section className="bg-gray-100 py-20 md:py-32">
+    <section className="bg-gray-700 py-20 md:py-32">
       <div className="max-w-4xl mx-auto px-4 md:px-8">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-black text-center">Book Now</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-white text-center">Book Now</h2>
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 md:p-8 rounded-lg shadow-lg">
           <div className="mb-4">
             <input

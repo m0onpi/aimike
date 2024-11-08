@@ -29,7 +29,7 @@ export default function Home() {
           <li><FaClock className="inline-block mr-2 text-purple-600" /> 24/7 Help: Support around the clock, every day.</li>
         </ul>
       </div>
-      <div className="text-center my-12">
+      <div className="bg-gray-800 text-center my-12">
         <BookForm />
       </div>
     </Layout>
