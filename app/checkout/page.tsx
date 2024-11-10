@@ -7,7 +7,7 @@ import CheckoutForm from '../../components/CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { StripeElementsOptions, loadStripe, Appearance } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(`${process.env.STRIPE_PUBLISH_KEY!}`);
+const stripePromise = loadStripe(`pk_live_51MxFbnHLQ5sGQMsVD6areb2ofnCNTJW2a8Xy4QHIv9kK4aQi7WAipQMCjpZvShovDzLcv2EOEF1y5loOQ83GBmZ600JANOi2Xq`);
 
 const appearance: Appearance = {
     theme: 'night',
