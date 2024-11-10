@@ -64,7 +64,7 @@ export default function Home() {
       {/* Example Script Section */}
       <div className="bg-gray-900 p-6 rounded-lg shadow-lg my-12 text-left max-w-4xl mx-auto">
         <h4 className="text-2xl font-bold mb-4 text-center text-white">How to Add Your Bot to Your Website</h4>
-        <p className="text-gray-300">Simply copy and paste the code we send you into your website's HTML, it will look somehting like this:</p>
+        <p className="text-gray-300">Simply copy and paste the code we send you into your website&apos;s HTML, it will look somehting like this:</p>
         <pre className="bg-gray-800 text-white p-4 rounded mt-4 overflow-x-auto">
           <code>
             {`<script type="text/javascript">
@@ -82,7 +82,7 @@ export default function Home() {
 </script>`}
           </code>
         </pre>
-        <p className="text-gray-300">Need help with setup ? Add the installation package for just £9.99</p>
+        <p className="text-gray-300">Need help with setup ? Add the installation package for just £19.99</p>
 
       </div>
 
