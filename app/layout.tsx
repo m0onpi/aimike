@@ -5,6 +5,7 @@ import './globals.css';
 import Link from 'next/link';
 import { SessionProvider } from 'next-auth/react';
 import Script from "next/script";
+import { Analytics } from '@vercel/analytics/react';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -149,7 +150,10 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Link>
             </nav>
           </div>
-          <main>{children}</main>
+          <main>
+            {children}
+            <Analytics />
+            </main>
           <footer className="text-center p-4 bg-gray-900 text-white">
             <div className="mb-2">
               © 2024 AI Mike. All rights reserved.
