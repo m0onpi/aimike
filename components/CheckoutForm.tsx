@@ -32,17 +32,28 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4">
-      <PaymentElement />
-      {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
-      <button
+    <form onSubmit={handleSubmit} className="mt-4 max-w-lg mx-auto px-4 md:px-0">
+    <div className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:space-x-4">
+        <div className="flex-1">
+            <PaymentElement />
+        </div>
+        </div>
+        {errorMessage && (
+        <div className="text-red-500 mt-2 text-sm md:text-base">
+            {errorMessage}
+        </div>
+        )}
+    </div>
+    <button
         type="submit"
         disabled={!stripe || isProcessing}
-        className="px-6 py-2 bg-green-500 text-white rounded-lg mt-4 hover:bg-green-600"
-      >
+        className="w-full md:w-auto px-6 py-2 bg-green-500 text-white rounded-lg mt-4 hover:bg-green-600 transition-all duration-150 ease-in-out"
+    >
         {isProcessing ? 'Processing...' : 'Pay Now'}
-      </button>
+    </button>
     </form>
+
   );
 };
 
