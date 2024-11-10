@@ -21,7 +21,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'https://aimike.dev/confirm/', // Replace with your actual return URL
+        return_url: 'https://aimike.dev/confirmation/', // Replace with your actual return URL
       },
     });
 

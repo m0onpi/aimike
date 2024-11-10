@@ -2,14 +2,14 @@
 "use client";
 import Layout from '../layout';
 import { useState, useEffect } from 'react';
-import { FaGift, FaTag, FaRocket, FaShieldAlt,FaCheckSquare } from 'react-icons/fa';
+import { FaGift, FaTag, FaRocket, FaShieldAlt } from 'react-icons/fa';
 import CheckoutForm from '../../components/CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { StripeElementsOptions, loadStripe, Appearance } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(`${process.env.STRIPE_PUBLISH_KEY!}`);
 
-const appearance = {
+const appearance: Appearance = {
     theme: 'night',
     variables: {
       colorPrimary: '#ffffff',
@@ -33,10 +33,6 @@ const appearance = {
         color: '#cccccc',
       },
     },
-    fields: {
-        postalCode: 'never', // Hides postal code field
-        country: 'never',    // Hides country field
-      },
   };
 
 export default function CheckoutPage() {
@@ -108,8 +104,9 @@ export default function CheckoutPage() {
     if (totalPrice > 0) fetchClientSecret();
   }, [totalPrice]); // Re-run on totalPrice change
 
-  const options = clientSecret ? { clientSecret, appearance } : undefined;
-
+  const options: StripeElementsOptions | undefined = clientSecret
+    ? { clientSecret, appearance }
+    : undefined
   return (
     <Layout>
       {/* Step 1: Package Selection */}
