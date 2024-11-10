@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY!}`, { apiVersion: '2022-11-15' }); // Replace with your actual secret key
+const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY!}`, { apiVersion: '2024-04-10' }); // Replace with your actual secret key
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Send the client_secret from the paymentIntent to the frontend
       res.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error });
     }
   } else {
     res.setHeader('Allow', 'POST');
