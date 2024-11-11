@@ -40,16 +40,17 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    websiteUrl: '', // Add website URL to capture it in the form
     additionalServices: [] as string[], // Ensure this is initialized as an array
 });
 
   const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   const packages = [
-    { id: 'basic', title: 'Basic AI Chatbot', description: 'Perfect for small businesses.', price: 99.99, color: 'blue', icon: <FaTag className="text-5xl text-blue-500 mx-auto mb-4" /> },
-    { id: 'pro', title: 'Pro AI Automation', description: 'Automate customer interactions.', price: 159.99, color: 'green', icon: <FaRocket className="text-5xl text-green-500 mx-auto mb-4" /> },
-    { id: 'premium', title: 'Titan AI System', description: 'Includes Basic, Pro, and more.', price: 229.99, color: 'purple', icon: <FaShieldAlt className="text-5xl text-purple-500 mx-auto mb-4" /> },
-    { id: 'ultimate', title: 'Ultimate AI Suite', description: 'Complete AI tools package.', price: 399.99, color: 'yellow', icon: <FaGift className="text-5xl text-yellow-500 mx-auto mb-4" /> },
+    { id: 'basic', title: 'Basic AI Chatbot', description: 'Perfect for small businesses.', originalPrice : 999.99, price: 0.99, color: 'blue', icon: <FaTag className="text-5xl text-blue-500 mx-auto mb-4" /> },
+    { id: 'pro', title: 'Pro AI Automation', description: 'Automate customer interactions.', originalPrice : 1599.99, price: 159.99, color: 'green', icon: <FaRocket className="text-5xl text-green-500 mx-auto mb-4" /> },
+    { id: 'premium', title: 'Titan AI System', description: 'Includes Basic, Pro, and more.', originalPrice : 2299.99, price: 229.99, color: 'purple', icon: <FaShieldAlt className="text-5xl text-purple-500 mx-auto mb-4" /> },
+    { id: 'ultimate', title: 'Ultimate AI Suite', description: 'Complete AI tools package.', originalPrice : 3999.99, price: 399.99, color: 'yellow', icon: <FaGift className="text-5xl text-yellow-500 mx-auto mb-4" /> },
   ];
 
   const upsells = [
@@ -109,42 +110,54 @@ export default function CheckoutPage() {
     : undefined
   return (
     <Layout>
-      {/* Step 1: Package Selection */}
       <div className="text-center my-6">
         <h1 className="text-4xl font-bold mb-2">Step 1: Choose Your AI Package</h1>
         <p className="text-sm mb-4 text-gray-300">Limited spots available—select your package below!</p>
         <div className="grid grid-cols-1 gap-2 p-4 max-w-3xl mx-auto">
-          {packages.map((pkg) => (
-            <div
-              key={pkg.id}
-              onClick={() => handlePackageSelect(pkg.id)}
-              className={`cursor-pointer flex items-center justify-between bg-gray-800 p-2 rounded-lg shadow-lg text-left transition duration-200 ${
-                selectedPackage === pkg.id ? `border-4 border-${pkg.color}-500` : 'border border-gray-700'
+        {packages.map((pkg) => {
+      const originalPrice = pkg.originalPrice;
+      const discountedPrice = pkg.price
+
+      return (
+        <label
+          key={pkg.id}
+          onClick={() => handlePackageSelect(pkg.id)}
+          className={`cursor-pointer flex items-center justify-between bg-gray-800 p-2 rounded-lg shadow-lg text-left transition duration-200 ${
+            selectedPackage === pkg.id ? `border-4 border-${pkg.color}-500` : 'border border-gray-700'
+          }`}
+        >
+          <div className="flex items-center space-x-2">
+            {pkg.icon}
+            <div className="text-white">
+              <h3 className="text-md font-bold">{pkg.title}</h3>
+              <p className="text-xs text-gray-400">{pkg.description}</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-semibold text-gray-400 line-through">£{originalPrice.toFixed(2)}</p>
+            <p className="text-lg font-semibold text-red-500">£{discountedPrice} <span className="text-sm text-green-400">(90% OFF)</span></p>
+            <input
+              type="radio"
+              name="selectedPackage"
+              value={pkg.id}
+              checked={selectedPackage === pkg.id}
+              onChange={() => handlePackageSelect(pkg.id)}
+              className="hidden"
+            />
+            <button
+              className={`px-3 py-1 rounded-lg text-xs text-white ${
+                selectedPackage === pkg.id ? `bg-${pkg.color}-500` : 'bg-gray-600 hover:bg-gray-700'
               }`}
             >
-              <div className="flex items-center space-x-2">
-                {pkg.icon}
-                <div className="text-white">
-                  <h3 className="text-md font-bold">{pkg.title}</h3>
-                  <p className="text-xs text-gray-400">{pkg.description}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-lg font-semibold text-red-500">£{pkg.price.toFixed(2)}</p>
-                <button
-                  className={`px-3 py-1 rounded-lg text-xs text-white ${
-                    selectedPackage === pkg.id ? `bg-${pkg.color}-500` : 'bg-gray-600 hover:bg-gray-700'
-                  }`}
-                >
-                  {selectedPackage === pkg.id ? 'Selected' : 'Select'}
-                </button>
-              </div>
-            </div>
-          ))}
+              {selectedPackage === pkg.id ? 'Selected' : 'Select'}
+            </button>
+          </div>
+        </label>
+      );
+    })}
         </div>
       </div>
 
-      {/* Step 2: Information Form and Upsells */}
       <div className="text-center my-6">
         <h1 className="text-4xl font-bold mb-2">Step 2: Your Information</h1>
         <p className="text-sm mb-4 text-gray-300">Fill out your details below. Spots are filling up fast!</p>
@@ -163,6 +176,15 @@ export default function CheckoutPage() {
             type="email"
             name="email"
             value={formData.email}
+            onChange={handleFormChange}
+            className="w-full p-2 mb-4 rounded bg-gray-700 text-white"
+            required
+          />
+          <label className="block mb-2 text-white">Website URL:</label>
+          <input
+            type="url"
+            name="websiteUrl"
+            value={formData.websiteUrl}
             onChange={handleFormChange}
             className="w-full p-2 mb-4 rounded bg-gray-700 text-white"
             required
@@ -186,14 +208,13 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* Step 3: Review and Payment */}
       <div className="text-center my-6">
         <h1 className="text-4xl font-bold mb-2">Step 3: Review and Payment</h1>
         <p className="text-sm mb-4 text-gray-300">Confirm your selection and complete your purchase.</p>
         <div className="max-w-md mx-auto bg-gray-800 p-4 rounded-lg text-left text-white">
           <h3 className="text-lg font-bold mb-2">Selected Package:</h3>
           <p>{selectedPackageDetails?.title} - £{selectedPackageDetails?.price.toFixed(2)}</p>
-          
+
           <h3 className="text-lg font-bold mt-4 mb-2">Additional Services:</h3>
           {additionalServiceDetails.length > 0 ? (
             <ul className="list-disc list-inside">
@@ -210,7 +231,12 @@ export default function CheckoutPage() {
         </div>
         {clientSecret && (
           <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm />
+            <CheckoutForm 
+            formData={formData} 
+            selectedPackageDetails={selectedPackageDetails} 
+            additionalServiceDetails={additionalServiceDetails} 
+            totalPrice={totalPrice}             
+            />
           </Elements>
         )}
       </div>

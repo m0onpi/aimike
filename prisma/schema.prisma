@@ -7,6 +7,28 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model UserSubmission {
+  id               Int       @id @default(autoincrement())
+  name             String
+  email            String    @unique
+  websiteUrl       String?
+  selectedPackage  String
+  additionalServices AdditionalService[]
+  createdAt        DateTime  @default(now())
+
+  @@map("user_submissions")
+}
+
+model AdditionalService {
+  id               Int      @id @default(autoincrement())
+  serviceName      String
+  userSubmissionId Int
+  userSubmission   UserSubmission @relation(fields: [userSubmissionId], references: [id], onDelete: Cascade)
+
+  @@map("additional_services")
+}
+
+
 model User {
   id            String    @id @default(cuid())
   name          String?

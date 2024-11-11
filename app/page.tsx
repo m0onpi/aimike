@@ -72,7 +72,7 @@ export default function Home() {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
-          verify: { projectID: '672541a1ab8a75cbda26f35a' },
+          verify: { projectID: 'demo' },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production'
         });
