@@ -48,7 +48,9 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body>
         <div className="flex flex-col min-h-screen">
           <header className="flex justify-between items-center p-4 bg-gray-900">
-            <div className="text-2xl font-bold">AI Mike</div>
+            <Link className="text-2xl font-bold" href="/" passHref>
+                AI Mike
+              </Link>
             <nav className="hidden md:flex space-x-4">
               <Link className="hover:underline" href="/" passHref>
                 Home
