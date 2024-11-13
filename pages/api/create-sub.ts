@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         currency: 'gbp',
         unit_amount: `${item.amount}`,
         product_data: {
-          name: "AI Mike Consultancy",
+          name: item,
         },
       });
       
@@ -44,30 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
 
-    const accessToken = await oauth2Client.getAccessToken();
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        type: 'OAuth2',
-        user: 'sales@aimike.dev',
-        clientId: clientID,
-        clientSecret: clientSecret,
-        refreshToken: refreshToken,
-        accessToken: accessToken.token,
-      },
-    }as SMTPTransport.Options);
-
-    const mailOptions = {
-      from: 'sales@aimike.dev',
-      to: customerEmail,
-      subject: "Invoice",
-      text: `Your invoice has been created. You can view and pay your invoice here: ${paymentLink.url}?prefilled_email=${encodeURIComponent(customerEmail)}`,
-    };
-
-    await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true, link: `${paymentLink.url}?prefilled_email=${encodeURIComponent(customerEmail)}`});
   } catch (error) {
