@@ -209,9 +209,6 @@ export default function CheckoutPage() {
         {clientSecret && (
           <Elements stripe={stripePromise} options={options}>
             <CheckoutForm 
-            formData={formData} 
-            selectedPackageDetails={selectedPackageDetails} 
-            totalPrice={totalPrice}             
             />
           </Elements>
         )}
