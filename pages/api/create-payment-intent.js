@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
 
       const customer = await stripe.customers.create({
-        email: "michael.pigottbiz@gmail.com",
+        email: data.email,
     });
 
     const price = await stripe.prices.create({
@@ -41,7 +41,6 @@ export default async function handler(req, res) {
       expand: ['latest_invoice.payment_intent'],
 
     });
-    console.log(subscription)
 
       // Send the client_secret from the paymentIntent to the frontend
       res.status(200).json({clientSecret: subscription.latest_invoice.payment_intent.client_secret});
