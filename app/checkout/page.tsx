@@ -204,7 +204,9 @@ export default function CheckoutPage() {
           <p>{selectedPackageDetails?.title} - £{selectedPackageDetails?.price.toFixed(2)}</p>
 
           <h3 className="text-lg font-bold mt-4">Total Amount:</h3>
-          <p className="text-xl font-bold text-green-400">£{totalPrice.toFixed(2)}</p>
+          <p className="text-xl font-bold text-green-400">
+              £{totalPrice.toFixed(2)} <span className="text-sm">per month</span>
+          </p>
         </div>
         {clientSecret && (
           <Elements stripe={stripePromise} options={options}>
