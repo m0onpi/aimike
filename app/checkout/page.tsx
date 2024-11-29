@@ -60,7 +60,7 @@ export default function CheckoutPage() {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
-    if (name === 'additionalServices') {
+    if (name === 'selectedPackage') {
       setFormData((prevData) => ({
         ...prevData,
         additionalServices: checked
@@ -99,15 +99,21 @@ export default function CheckoutPage() {
         console.error('Error fetching client secret:', error);
       }
     };
-
+  
     // Ensure all required fields are filled before generating clientSecret
     const isFormComplete = formData.name && formData.email && formData.websiteUrl;
-    setClientSecret(null); // Reset clientSecret before creating a new one
-
+  
+    // Only fetch a new client secret if data has changed
     if (totalPrice > 0 && isFormComplete && selectedPackage) {
-      fetchClientSecret();
+      // Avoid calling if clientSecret already exists for the current setup
+      if (
+        !clientSecret || 
+        clientSecret !== `${selectedPackage}-${totalPrice}-${JSON.stringify(formData)}`
+      ) {
+        fetchClientSecret();
+      }
     }
-  }, [totalPrice, formData, selectedPackage]); // Run when dependencies change
+  }, [totalPrice, formData.name, formData.email, formData.websiteUrl, selectedPackage]); // Only watch specific dependencies
 
   const options: StripeElementsOptions | undefined = clientSecret
     ? { clientSecret, appearance }
