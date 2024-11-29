@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <title>AI Mike</title>
-        <meta name="description" content="AI Mike website" />
+        <meta name="description" content="Discover AI Mike: Your ultimate AI-powered solution for automated websites and systems. Boost efficiency, save time, and transform your business today!" />
         <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="DQC1s32lVIm8ccLG" data-version="062024"></script>
         {/* Google Analytics */}
         <Script
