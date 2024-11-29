@@ -8,7 +8,7 @@ import { FaComments, FaCalendarCheck, FaBullhorn, FaClock, FaBolt, FaShieldAlt }
 import Link from 'next/link';
 import BookForm from '@/components/BookForm';
 
-export default function Home() {
+export default function Book() {
   return (
     <Layout>
       <div className="text-center my-12">
